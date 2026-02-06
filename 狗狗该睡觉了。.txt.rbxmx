@@ -1,0 +1,423 @@
+<!-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw --><roblox version="4"><Meta name="ExplicitAutoJoints">true</Meta><Item class="ScreenGui" referent="0"><Properties><token name="ScreenInsets">1</token><bool name="ResetOnSpawn">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[NPC_HealthGUI]]></string><int64 name="SourceAssetId">6033441665</int64><BinaryString name="Tags"></BinaryString></Properties><Item class="LocalScript" referent="1"><Properties><ProtectedString name="Source"><![CDATA[-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw
+
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-05 18:15:11
+-- Luau version 6, Types version 3
+-- Time taken: 0.022082 seconds
+
+local TweenService_upvr = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RakeEvents = ReplicatedStorage:WaitForChild("Events"):WaitForChild("RakeEvents")
+local HourActive_upvr = ReplicatedStorage:WaitForChild("Values"):WaitForChild("HourActive")
+local HourName_upvr = HourActive_upvr:WaitForChild("HourName")
+local NPCs_upvr = workspace:WaitForChild("NPCs")
+local MainFrame = script.Parent:WaitForChild("MainFrame")
+local MainFrame2 = MainFrame:WaitForChild("MainFrame2")
+local Bar_upvr = MainFrame2.MainFrame.Base:WaitForChild("Bar")
+local TextLabel_upvr = MainFrame2.MainFrame.Base:WaitForChild("TextLabel")
+local TextLabel_upvr_2 = MainFrame2.MainFrame.Title:WaitForChild("TextLabel")
+local MainFrame_upvr = MainFrame2.Parent:WaitForChild("IconFrame"):WaitForChild("MainFrame")
+local TweenInfo_new_result1 = TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+local TweenInfo_new_result1_2_upvr = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+local any_Create_result1_upvr_3 = TweenService_upvr:Create(TextLabel_upvr, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+	TextTransparency = 1;
+	TextStrokeTransparency = 1;
+})
+local var20_upvw
+local var21_upvw = 0
+local var22_upvw = true
+local tbl_upvw = {}
+local function _() -- Line 34, Named "CheckIfCorrupted"
+	--[[ Upvalues[2]:
+		[1]: HourActive_upvr (readonly)
+		[2]: HourName_upvr (readonly)
+	]]
+	local Value = HourActive_upvr.Value
+	if Value then
+		if HourName_upvr.Value ~= "Corrupted Hour" then
+			Value = false
+		else
+			Value = true
+		end
+	end
+	return Value
+end
+local function comma_value_upvr(arg1) -- Line 38, Named "comma_value"
+	local var25
+	repeat
+		local string_gsub_result1, string_gsub_result2 = string.gsub(var25, "^(-?%d+)(%d%d%d)", "%1,%2")
+		k = string_gsub_result2 -- Setting global
+		var25 = string_gsub_result1
+	until k == 0
+	return var25
+end
+local function ColorizeLabel_upvr(arg1, arg2) -- Line 47, Named "ColorizeLabel"
+	--[[ Upvalues[2]:
+		[1]: TweenService_upvr (readonly)
+		[2]: TweenInfo_new_result1_2_upvr (readonly)
+	]]
+	local any_Create_result1_2 = TweenService_upvr:Create(arg1, TweenInfo_new_result1_2_upvr, {
+		TextColor3 = Color3.fromRGB(75, 235, 75);
+	})
+	local any_Create_result1 = TweenService_upvr:Create(arg1, TweenInfo_new_result1_2_upvr, {
+		TextColor3 = Color3.fromRGB(235, 75, 75);
+	})
+	local any_Create_result1_3 = TweenService_upvr:Create(arg1, TweenInfo_new_result1_2_upvr, {
+		TextColor3 = Color3.fromRGB(215, 215, 215);
+	})
+	if arg2 == "Add" then
+		any_Create_result1_2:Play()
+		any_Create_result1_2.Completed:Wait()
+		any_Create_result1_3:Play()
+	elseif arg2 == "Sub" then
+		any_Create_result1:Play()
+		any_Create_result1.Completed:Wait()
+		any_Create_result1_3:Play()
+	end
+end
+local function ChangeRakeImage_upvr(arg1, arg2) -- Line 63, Named "ChangeRakeImage"
+	--[[ Upvalues[3]:
+		[1]: TweenService_upvr (readonly)
+		[2]: MainFrame_upvr (readonly)
+		[3]: TweenInfo_new_result1_2_upvr (readonly)
+	]]
+	if arg1 == "Dissapear" then
+		TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+			ImageTransparency = 1;
+		}):Play()
+	else
+		if arg1 == "Appear" then
+			TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+				ImageTransparency = 0;
+			}):Play()
+			return
+		end
+		if arg1 == "Change" then
+			TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+				ImageTransparency = 1;
+			}):Play()
+			task.wait(0.35)
+			local tbl_2 = {
+				BloodAutumn = "rbxassetid://109867504127645";
+				LostMoon = "http://www.roblox.com/asset/?id=72987261755756";
+				Wendigo = "http://www.roblox.com/asset/?id=140362117212363";
+				Seer = "http://www.roblox.com/asset/?id=117468455719993";
+				Default = "rbxassetid://5999103989";
+			}
+			local var38 = tbl_2[arg2]
+			if not var38 then
+				var38 = tbl_2.Default
+			end
+			MainFrame_upvr.IconImage.Image = var38
+			TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+				ImageTransparency = 0;
+			}):Play()
+		end
+	end
+end
+local function ClearConnections_upvr() -- Line 83, Named "ClearConnections"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvw (read and write)
+	]]
+	for _, v in ipairs(tbl_upvw) do
+		if v and v.Connected then
+			v:Disconnect()
+		end
+	end
+	tbl_upvw = {}
+end
+local function Update_upvr(arg1, arg2) -- Line 90, Named "Update"
+	--[[ Upvalues[10]:
+		[1]: var22_upvw (read and write)
+		[2]: comma_value_upvr (readonly)
+		[3]: TextLabel_upvr (readonly)
+		[4]: HourActive_upvr (readonly)
+		[5]: HourName_upvr (readonly)
+		[6]: TweenService_upvr (readonly)
+		[7]: Bar_upvr (readonly)
+		[8]: var20_upvw (read and write)
+		[9]: var21_upvw (read and write)
+		[10]: ColorizeLabel_upvr (readonly)
+	]]
+	local var49
+	if var22_upvw then
+	else
+		local floored_2 = math.floor(arg1)
+		local var51 = arg2 or 1
+		var49 = 1000000000
+		if var49 <= floored_2 then
+			var51 = "inf"
+		else
+			var49 = comma_value_upvr(floored_2)
+			var51 = var49..'/'..comma_value_upvr(math.floor(var51))
+		end
+		var49 = TextLabel_upvr
+		var49.Text = var51
+		var49 = HourActive_upvr.Value
+		if var49 then
+			if HourName_upvr.Value ~= "Corrupted Hour" then
+				var49 = false
+			else
+				var49 = true
+			end
+		end
+		if not var49 then
+			var49 = math.clamp(arg1 / (arg2 or 1), 0, 1)
+			TweenService_upvr:Create(Bar_upvr, TweenInfo.new(0.35), {
+				Size = UDim2.new(var49, 0, 1, 0);
+			}):Play()
+		end
+		var49 = var20_upvw
+		if var49 then
+			var49 = var20_upvw:FindFirstChildWhichIsA("ForceField")
+			if not var49 then
+				var49 = var21_upvw
+				if var49 < arg1 then
+					var49 = task.spawn
+					var49(ColorizeLabel_upvr, TextLabel_upvr, "Add")
+				else
+					var49 = var21_upvw
+					if arg1 < var49 then
+						var49 = task.spawn
+						var49(ColorizeLabel_upvr, TextLabel_upvr, "Sub")
+					end
+				end
+			end
+		end
+		var21_upvw = arg1
+	end
+end
+local function FF_upvr(arg1) -- Line 115, Named "FF"
+	--[[ Upvalues[3]:
+		[1]: TextLabel_upvr (readonly)
+		[2]: MainFrame_upvr (readonly)
+		[3]: TextLabel_upvr_2 (readonly)
+	]]
+	if arg1 then
+		TextLabel_upvr.TextColor3 = Color3.fromRGB(164, 248, 255)
+		MainFrame_upvr.IconImage.ImageColor3 = Color3.fromRGB(164, 248, 255)
+		TextLabel_upvr_2.TextColor3 = Color3.fromRGB(164, 248, 255)
+	else
+		TextLabel_upvr.TextColor3 = Color3.fromRGB(225, 225, 225)
+		MainFrame_upvr.IconImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel_upvr_2.TextColor3 = Color3.fromRGB(225, 225, 225)
+	end
+end
+local function SetupRake_upvr(arg1) -- Line 127, Named "SetupRake"
+	--[[ Upvalues[12]:
+		[1]: ClearConnections_upvr (readonly)
+		[2]: var20_upvw (read and write)
+		[3]: var22_upvw (read and write)
+		[4]: var21_upvw (read and write)
+		[5]: Update_upvr (readonly)
+		[6]: tbl_upvw (read and write)
+		[7]: FF_upvr (readonly)
+		[8]: TextLabel_upvr (readonly)
+		[9]: MainFrame_upvr (readonly)
+		[10]: TextLabel_upvr_2 (readonly)
+		[11]: HourName_upvr (readonly)
+		[12]: ChangeRakeImage_upvr (readonly)
+	]]
+	ClearConnections_upvr()
+	local NPC_upvr = arg1:WaitForChild("NPC", 8)
+	local var54
+	if not NPC_upvr then
+	else
+		var20_upvw = arg1
+		var54 = false
+		var22_upvw = var54
+		var54 = NPC_upvr.Health
+		var21_upvw = var54
+		var54 = print
+		var54("[RakeHealth] Initial HP:", NPC_upvr.Health, '/', NPC_upvr.MaxHealth)
+		var54 = task.spawn
+		var54(Update_upvr, NPC_upvr.Health, NPC_upvr.MaxHealth)
+		local var55 = tbl_upvw
+		var54 = table.insert
+		var54(var55, NPC_upvr.HealthChanged:Connect(function(arg1_2) -- Line 142
+			--[[ Upvalues[4]:
+				[1]: var22_upvw (copied, read and write)
+				[2]: Update_upvr (copied, readonly)
+				[3]: NPC_upvr (readonly)
+				[4]: ClearConnections_upvr (copied, readonly)
+			]]
+			if var22_upvw then
+			else
+				Update_upvr(arg1_2, NPC_upvr.MaxHealth)
+				if arg1_2 <= 0 then
+					var22_upvw = true
+					ClearConnections_upvr()
+				end
+			end
+		end))
+		var54 = FF_upvr
+		if arg1:FindFirstChildWhichIsA("ForceField") == nil then
+			var55 = false
+		else
+			var55 = true
+		end
+		var54(var55)
+		var54 = table.insert
+		var54(tbl_upvw, arg1.ChildAdded:Connect(function(arg1_3) -- Line 153
+			--[[ Upvalues[3]:
+				[1]: TextLabel_upvr (copied, readonly)
+				[2]: MainFrame_upvr (copied, readonly)
+				[3]: TextLabel_upvr_2 (copied, readonly)
+			]]
+			if arg1_3:IsA("ForceField") then
+				TextLabel_upvr.TextColor3 = Color3.fromRGB(164, 248, 255)
+				MainFrame_upvr.IconImage.ImageColor3 = Color3.fromRGB(164, 248, 255)
+				TextLabel_upvr_2.TextColor3 = Color3.fromRGB(164, 248, 255)
+			end
+		end))
+		var54 = table.insert
+		var54(tbl_upvw, arg1.ChildRemoved:Connect(function(arg1_4) -- Line 157
+			--[[ Upvalues[3]:
+				[1]: TextLabel_upvr (copied, readonly)
+				[2]: MainFrame_upvr (copied, readonly)
+				[3]: TextLabel_upvr_2 (copied, readonly)
+			]]
+			if arg1_4:IsA("ForceField") then
+				TextLabel_upvr.TextColor3 = Color3.fromRGB(225, 225, 225)
+				MainFrame_upvr.IconImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel_upvr_2.TextColor3 = Color3.fromRGB(225, 225, 225)
+			end
+		end))
+		var54 = "Default"
+		if HourName_upvr.Value:match("BloodAutumn") or HourName_upvr.Value:match("Armageddon") or HourName_upvr.Value:match("LunarEsclipe") then
+			var54 = "BloodAutumn"
+		elseif HourName_upvr.Value:match("LostMoon") or HourName_upvr.Value == "Oblivion" then
+			var54 = "LostMoon"
+		elseif arg1:FindFirstChild("Wendigo") then
+			var54 = "Wendigo"
+		elseif HourName_upvr.Value == "Seer" then
+			var54 = "Seer"
+		end
+		ChangeRakeImage_upvr("Change", var54)
+	end
+end
+local any_Create_result1_upvr_2 = TweenService_upvr:Create(MainFrame, TweenInfo_new_result1, {
+	Position = UDim2.new(0.5, 0, -0.3, 0);
+})
+RakeEvents.RakeDeath.OnClientEvent:Connect(function() -- Line 174
+	--[[ Upvalues[9]:
+		[1]: var22_upvw (read and write)
+		[2]: ClearConnections_upvr (readonly)
+		[3]: any_Create_result1_upvr_3 (readonly)
+		[4]: TweenService_upvr (readonly)
+		[5]: MainFrame_upvr (readonly)
+		[6]: TweenInfo_new_result1_2_upvr (readonly)
+		[7]: any_Create_result1_upvr_2 (readonly)
+		[8]: TextLabel_upvr (readonly)
+		[9]: TextLabel_upvr_2 (readonly)
+	]]
+	print("[RakeHealth] RakeDeath event received")
+	var22_upvw = true
+	ClearConnections_upvr()
+	any_Create_result1_upvr_3:Play()
+	TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+		ImageTransparency = 1;
+	}):Play()
+	any_Create_result1_upvr_2:Play()
+	TextLabel_upvr.TextColor3 = Color3.fromRGB(225, 225, 225)
+	MainFrame_upvr.IconImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel_upvr_2.TextColor3 = Color3.fromRGB(225, 225, 225)
+end)
+local any_Create_result1_upvr = TweenService_upvr:Create(TextLabel_upvr, TweenInfo.new(0.7, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
+	TextTransparency = 0;
+	TextStrokeTransparency = 0.8;
+})
+local any_Create_result1_4_upvr = TweenService_upvr:Create(MainFrame, TweenInfo_new_result1, {
+	Position = UDim2.new(0.5, 0, 0.1, 0);
+})
+RakeEvents.RakeSpawn.OnClientEvent:Connect(function() -- Line 184
+	--[[ Upvalues[6]:
+		[1]: var22_upvw (read and write)
+		[2]: any_Create_result1_upvr (readonly)
+		[3]: TweenService_upvr (readonly)
+		[4]: MainFrame_upvr (readonly)
+		[5]: TweenInfo_new_result1_2_upvr (readonly)
+		[6]: any_Create_result1_4_upvr (readonly)
+	]]
+	print("[RakeHealth] RakeSpawn event received")
+	var22_upvw = false
+	any_Create_result1_upvr:Play()
+	TweenService_upvr:Create(MainFrame_upvr.IconImage, TweenInfo_new_result1_2_upvr, {
+		ImageTransparency = 0;
+	}):Play()
+	any_Create_result1_4_upvr:Play()
+end)
+NPCs_upvr.ChildAdded:Connect(function(arg1) -- Line 192
+	--[[ Upvalues[2]:
+		[1]: NPCs_upvr (readonly)
+		[2]: SetupRake_upvr (readonly)
+	]]
+	if arg1.Name == "The_Rake" then
+		task.delay(0.2, function() -- Line 194
+			--[[ Upvalues[3]:
+				[1]: arg1 (readonly)
+				[2]: NPCs_upvr (copied, readonly)
+				[3]: SetupRake_upvr (copied, readonly)
+			]]
+			if arg1.Parent == NPCs_upvr then
+				SetupRake_upvr(arg1)
+			end
+		end)
+	end
+end)
+NPCs_upvr.ChildRemoved:Connect(function(arg1) -- Line 202
+	--[[ Upvalues[3]:
+		[1]: var22_upvw (read and write)
+		[2]: ClearConnections_upvr (readonly)
+		[3]: any_Create_result1_upvr_3 (readonly)
+	]]
+	if arg1.Name == "The_Rake" then
+		var22_upvw = true
+		ClearConnections_upvr()
+		any_Create_result1_upvr_3:Play()
+	end
+end)
+print("[RakeHealth] Checking if The_Rake already exists...")
+if NPCs_upvr:FindFirstChild("The_Rake") then
+	task.spawn(SetupRake_upvr, NPCs_upvr.The_Rake)
+else
+	Bar_upvr.Size = UDim2.new(0, 0, 1, 0)
+	any_Create_result1_upvr_3:Play()
+end]]></ProtectedString><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainClient]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="BoolValue" referent="2"><Properties><bool name="Value">true</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IsToggable]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="3"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.10000002384185791</YS><YO>0</YO></UDim2><float name="Rotation">0.024452567100524902</float><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>0.07500000298023224</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="4"><Properties><float name="AspectRatio">6</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="5"><Properties><Vector2 name="AnchorPoint"><X>0</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IconFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="6"><Properties><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="7"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.8999999761581421</XS><XO>0</XO><YS>0.8999999761581421</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIStroke" referent="8"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UICorner" referent="9"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UIGradient" referent="10"><Properties><ColorSequence name="Color">0 0.564706027507782 0.564706027507782 0.564706027507782 0 0.2629759907722473 1 1 1 0 1 0 0 0 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="11"><Properties><Content name="Image"><url><![CDATA[rbxassetid://5999103989]]></url></Content><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9350000023841858</XS><XO>0</XO><YS>0.9350000023841858</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IconImage]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="12"><Properties><Content name="Image"><url><![CDATA[rbxassetid://109867504127645]]></url></Content><float name="ImageTransparency">1</float><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><bool name="Visible">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Revenant_BloodAutumn]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="13"><Properties><Content name="Image"><url><![CDATA[rbxassetid://5999103989]]></url></Content><float name="ImageTransparency">1</float><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><bool name="Visible">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Revenant_Default]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="14"><Properties><Content name="Image"><url><![CDATA[http://www.roblox.com/asset/?id=72987261755756]]></url></Content><float name="ImageTransparency">1</float><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><bool name="Visible">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Revenant_LostMoon]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="15"><Properties><Content name="Image"><url><![CDATA[http://www.roblox.com/asset/?id=117468455719993]]></url></Content><float name="ImageTransparency">1</float><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><bool name="Visible">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Revenant_Seer]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="16"><Properties><Content name="Image"><url><![CDATA[http://www.roblox.com/asset/?id=140362117212363]]></url></Content><float name="ImageTransparency">1</float><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><bool name="Visible">false</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Revenant_Wendigo]]></string><BinaryString name="Tags"></BinaryString></Properties></Item></Item></Item><Item class="Frame" referent="17"><Properties><Vector2 name="AnchorPoint"><X>1</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>1</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame2]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="18"><Properties><float name="AspectRatio">5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="19"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.75</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UICorner" referent="20"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UIStroke" referent="21"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="22"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.7250000238418579</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.4000000059604645</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Base]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIStroke" referent="23"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UICorner" referent="24"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="25"><Properties><Vector2 name="AnchorPoint"><X>0</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.8823529481887817</R><G>0.8823529481887817</G><B>0.8823529481887817</B></Color3><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>-3.953921350330347e-07</XS><XO>0</XO><YS>0.5000007748603821</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Bar]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIGradient" referent="26"><Properties><ColorSequence name="Color">0 0.784313976764679 0.784313976764679 0.784313976764679 0 0.5 1 1 1 0 1 0.784313976764679 0.784313976764679 0.784313976764679 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UICorner" referent="27"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="TextLabel" referent="28"><Properties><Font name="FontFace"><Family><url><![CDATA[rbxasset://fonts/families/GothamSSm.json]]></url></Family><Weight>600</Weight><Style>Normal</Style></Font><string name="LocalizationMatchIdentifier"><![CDATA[7eb3b583-8a04-4733-99c5-2556c384251f]]></string><string name="LocalizationMatchedSourceText"><![CDATA[LOADING]]></string><string name="Text"><![CDATA[4,000/4,000]]></string><Color3 name="TextColor3"><R>0.8823529481887817</R><G>0.8823529481887817</G><B>0.8823529481887817</B></Color3><bool name="TextScaled">true</bool><float name="TextSize">14</float><float name="TextStrokeTransparency">0.800000011920929</float><bool name="TextWrapped">true</bool><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><int name="ZIndex">2</int><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="Frame" referent="29"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.2750000059604645</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.4000000059604645</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Title]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="TextLabel" referent="30"><Properties><Font name="FontFace"><Family><url><![CDATA[rbxasset://fonts/families/GothamSSm.json]]></url></Family><Weight>700</Weight><Style>Normal</Style></Font><string name="LocalizationMatchIdentifier"><![CDATA[245c56b0-a562-4827-ace1-87c0c1854e2a]]></string><string name="LocalizationMatchedSourceText"><![CDATA[RAKE'S HEALTH]]></string><string name="Text"><![CDATA[RAKE'S HEALTH]]></string><Color3 name="TextColor3"><R>0.8823529481887817</R><G>0.8823529481887817</G><B>0.8823529481887817</B></Color3><bool name="TextScaled">true</bool><float name="TextSize">14</float><float name="TextStrokeTransparency">0.25</float><float name="TextTransparency">0.09999999403953552</float><bool name="TextWrapped">true</bool><token name="TextXAlignment">0</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.949999988079071</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="UIGradient" referent="31"><Properties><ColorSequence name="Color">0 0.564706027507782 0.564706027507782 0.564706027507782 0 0.2629759907722473 1 1 1 0 1 0 0 0 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item></Item></Item></Item><Item class="Script" referent="32"><Properties><string name="Name"><![CDATA[README]]></string><ProtectedString name="Source"><![CDATA[--[[
+		Thank you for using UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw.
+
+		If you didn't save in Binary (rbxl) - it's recommended to save the game right away to take advantage of the binary format & to preserve values of certain properties if you used IgnoreDefaultProperties setting (as they might change in the future).
+		You can do that by going to FILE -> Save to File As -> Make sure File Name ends with .rbxl -> Save
+
+		ServerStorage, ServerScriptService and Server Scripts are IMPOSSIBLE to save because of FilteringEnabled.
+
+		If your player cannot spawn into the game, please move the scripts in StarterPlayer somewhere else or delete them. Then run `game:GetService("Players").CharacterAutoLoads = true`.
+		And use "Play Here" to start game instead of "Play" to spawn your Character where your Camera currently is.
+
+		If the chat system does not work, please use the explorer and delete everything inside the TextChatService/Chat service(s). 
+		Or run `game:GetService("Chat"):ClearAllChildren() game:GetService("TextChatService"):ClearAllChildren()`
+				
+		If Union and MeshPart collisions don't work, run the script below in the Studio Command Bar:
+				
+				
+		local C = game:GetService("CoreGui")
+		local D = Enum.CollisionFidelity.Default
+				
+		for _, v in game:GetDescendants() do
+			if v:IsA("TriangleMeshPart") and not v:IsDescendantOf(C) then
+				v.CollisionFidelity = D
+			end
+		end
+		print("Done")
+				
+		If you can't move the Camera, run this script in the Studio Command Bar:
+			
+		workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed
+		
+		Or Destroy the Camera.
+
+		This file was generated with the following settings:
+		{"SaveBytecode":false,"Callback":false,"ShowStatus":true,"IgnoreDefaultPlayerScripts":true,"NilInstancesFixes":{"BaseWrap":null,"Animator":null,"Attachment":null,"PackageLink":null,"AdPortal":null},"IgnoreList":["CoreGui","CorePackages"],"__DEBUG_MODE":false,"DecompileJobless":false,"IgnoreNotArchivable":true,"RemovePlayerCharacters":false,"Object":null,"DecompileIgnore":["TextChatService",null,null,null,null,null,null],"IgnoreSpecialProperties":true,"TreatUnionsAsParts":false,"IsModel":false,"NilInstances":false,"ExtraInstances":[],"noscripts":false,"ReadMe":true,"OptionsAliases":{"SavePlayers":"IsolatePlayers","IgnoreArchivable":"IgnoreNotArchivable","DecompileTimeout":"timeout","SaveNonCreatable":"SaveNotCreatable","InstancesBlacklist":"IgnoreList","IsolatePlayerGui":"IsolateLocalPlayer","FileName":"FilePath","IgnoreDefaultProps":"IgnoreDefaultProperties"},"scriptcache":true,"SharedStringOverwrite":false,"AlternativeWritefile":true,"mode":"optimized","SaveCacheInterval":56320,"IgnoreSharedStrings":true,"IsolatePlayers":false,"NotCreatableFixes":["","AdvancedDragger","AnimationTrack","Dragger","Player","PlayerGui","PlayerMouse","PlayerMouse","PlayerScripts","ScreenshotHud","StudioData","TextChatMessage","TextSource","TouchTransmitter","Translator"],"timeout":10,"IgnoreDefaultProperties":true,"Anonymous":false,"IsolateStarterPlayer":false,"IsolateLocalPlayerCharacter":false,"IgnorePropertiesOfNotScriptsOnScriptsMode":false,"AvoidFileOverwrite":true,"SaveNotCreatable":false,"IsolateLocalPlayer":false,"FilePath":"狗狗该睡觉了。.txt","AntiIdle":true,"ShutdownWhenDone":false,"SafeMode":false,"IgnoreProperties":[]}
+
+		Elapsed time: 1.1301381539960857 Date (UTC): 6 February 2026 02:15:12 PlaceId: 72542573228776 PlaceVersion: 3350 Client Version: 2.705.924 Executor: Delta 1.1.705.942 arm64
+]]]]></ProtectedString></Properties></Item></roblox><!-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw -->
