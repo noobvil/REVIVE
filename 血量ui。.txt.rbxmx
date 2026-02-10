@@ -1,0 +1,1374 @@
+<!-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw --><roblox version="4"><Meta name="ExplicitAutoJoints">true</Meta><Item class="ScreenGui" referent="0"><Properties><token name="ScreenInsets">1</token><bool name="ResetOnSpawn">false</bool><token name="ZIndexBehavior">1</token><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[NPC_HealthGUI]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="LocalScript" referent="1"><Properties><ProtectedString name="Source"><![CDATA[-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw
+
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-09 17:00:25
+-- Luau version 6, Types version 3
+-- Time taken: 0.062287 seconds
+
+local function var1_upvr(arg1) -- Line 1
+	local var4
+	for i = 1, #arg1 do
+		if 0.5 < math.random() then
+			var4 = var4..arg1:sub(i, i):upper()
+		else
+			var4 = var4..arg1:sub(i, i):lower()
+		end
+	end
+	return var4
+end
+local function var5_upvr(arg1, arg2, arg3, arg4) -- Line 13
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local tick_result1 = tick()
+	local var7
+	if arg3 == nil then
+		var7 = 1000
+	else
+		var7 = arg3
+	end
+	if arg4 then
+	else
+	end
+	while true do
+		local var8
+		var8()
+		var8 = nil
+		if arg4 then
+			var8 = arg1:FindFirstChildWhichIsA(arg2)
+		else
+			var8 = arg1:FindFirstChild(arg2)
+		end
+		if var8 ~= nil or var7 ~= nil and var7 <= tick() - tick_result1 or arg1 == nil or arg1.Parent == nil then
+			if var7 <= tick() - tick_result1 then
+				warn(script.Name..": Infinite yield in waiting for <"..arg1.Name..":FindFirstChild"..""..'('..arg2..")>")
+				return nil
+			end
+			if arg4 then
+				var8 = arg1:FindFirstChildWhichIsA(arg2)
+			else
+				var8 = arg1:FindFirstChild(arg2)
+			end
+			task.wait()
+			return var8
+		end
+	end
+end
+local function _(arg1) -- Line 43
+	return tostring(arg1):reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+end
+if script.Parent then
+	local TweenService_upvr = game:GetService("TweenService")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local module = require(script:WaitForChild("Spring2"))
+	local Events = ReplicatedStorage.Dependencies:WaitForChild("Events")
+	ReplicatedStorage.Dependencies:WaitForChild("Values"):WaitForChild("HourActive"):WaitForChild("HourName")
+	local AI = workspace:WaitForChild("Dependencies"):WaitForChild("AI")
+	local MainFrame_2_upvr = script.Parent:WaitForChild("MainFrame")
+	local MainFrame_upvr = MainFrame_2_upvr:WaitForChild("BarFrame"):WaitForChild("MainFrame")
+	local MainFrame = MainFrame_2_upvr:WaitForChild("IconFrame"):WaitForChild("MainFrame")
+	local TextLabel_upvr_2 = MainFrame_upvr:WaitForChild("Title"):WaitForChild("TextLabel")
+	local TextLabel_upvr = MainFrame_upvr:WaitForChild("Base"):WaitForChild("TextLabel")
+	local Bar_upvr = MainFrame_upvr:WaitForChild("Base"):WaitForChild("Bar")
+	local DrainBar_upvr = MainFrame_upvr:WaitForChild("Base"):WaitForChild("DrainBar")
+	local IconImage_upvr = MainFrame:WaitForChild("IconImage")
+	MainFrame:WaitForChild("ViewportFrame")
+	local UIStroke = MainFrame_upvr:WaitForChild("UIStroke")
+	local UIStroke_3 = MainFrame:WaitForChild("UIStroke")
+	local UIStroke_2 = MainFrame_upvr:WaitForChild("Base"):WaitForChild("UIStroke")
+	local any_new_result1_upvr = module.new(Vector2.new())
+	any_new_result1_upvr.s = 15
+	any_new_result1_upvr.d = 0.5
+	local any_new_result1_upvr_2 = module.new(0)
+	any_new_result1_upvr_2.s = 12
+	any_new_result1_upvr_2.d = 0.6
+	local NumberValue_upvr_2 = Instance.new("NumberValue")
+	local NumberValue_upvr = Instance.new("NumberValue")
+	local NumberValue_upvr_3 = Instance.new("NumberValue")
+	local tbl_2_upvr = {
+		CurrentNPC = nil;
+		NPC_Info = nil;
+		LastHealth = nil;
+		Debug = false;
+		RotationState = false;
+		PercentageMode = false;
+		Glitch = false;
+		StyleActive = false;
+		UIState = "Closed";
+		UIState2 = "";
+		Colors = {
+			HealthMax = Color3.fromRGB(225, 225, 225);
+			HealthMin = Color3.fromRGB(106, 43, 43);
+		};
+		GlitchTexts = {"???", '?', "??", "DEATH", "YOUR DOOM", "RUN", "BEHIND YOU", "LOOK UP", "YOUR NIGHTMARE", "NULL", "VOID", "nan", "ERROR", "GIVE UP", "</>", "Client:354: TextLabel is not a valid member of Frame \"Frame\"", "Client:87: ImageColor3 is not a valid member of Part \"Handle\"", "Client:451: HumanoidRootPart is not a valid member of Model \"Revenant\""};
+		GlitchTextsHP = {"nil", "<void>", "nan", "inf", "</>", "DONT FIGHT", "RUN", "BEHIND YOU", "LOOK UP", "Client:354: TextLabel is not a valid member of Frame \"Frame\"", "Client:709: Health is not a valid property of Humanoid \"NPC\""};
+		GlitchPosShake = {10, 25};
+		GlitchRotShake = {7, 12};
+		PosShakeValues = {{
+			min = 0;
+			max = 1;
+			value = 0;
+		}, {
+			min = 1;
+			max = 2;
+			value = 14;
+		}, {
+			min = 2;
+			max = 3;
+			value = 20;
+		}, {
+			min = 3;
+			max = 5;
+			value = 30;
+		}, {
+			min = 5;
+			max = 8;
+			value = 50;
+		}, {
+			min = 8;
+			max = 10;
+			value = 85;
+		}, {
+			min = 10;
+			max = 15;
+			value = 100;
+		}, {
+			min = 15;
+			max = 20;
+			value = 150;
+		}, {
+			min = 20;
+			max = 25;
+			value = 200;
+		}, {
+			min = 25;
+			max = 30;
+			value = 250;
+		}, {
+			min = 30;
+			max = math.huge;
+			value = 300;
+		}};
+		RotShakeValues = {{
+			min = 0;
+			max = 2;
+			value = 0;
+		}, {
+			min = 2;
+			max = 3;
+			value = 1;
+		}, {
+			min = 3;
+			max = 5;
+			value = 2;
+		}, {
+			min = 5;
+			max = 8;
+			value = 3;
+		}, {
+			min = 8;
+			max = 10;
+			value = 5;
+		}, {
+			min = 10;
+			max = 15;
+			value = 7;
+		}, {
+			min = 15;
+			max = 20;
+			value = 10;
+		}, {
+			min = 20;
+			max = 25;
+			value = 15;
+		}, {
+			min = 25;
+			max = 30;
+			value = 20;
+		}, {
+			min = 30;
+			max = math.huge;
+			value = 25;
+		}};
+		OpenPos = UDim2.fromScale(0.5, 0.1);
+		ClosePos = UDim2.fromScale(0.5, -0.1);
+		RotationValue = Instance.new("NumberValue", script);
+	}
+	local tbl_4_upvr = {
+		Fade = TweenInfo.new(0.45, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
+		Appear = TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut, 0, false, 0.2);
+		SlideUp = TweenInfo.new(0.45, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0.35);
+		SlideDown = TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
+		HealthShake = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 3, true);
+		Colorize = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out);
+		Rotation = TweenInfo.new(1.25, Enum.EasingStyle.Sine, Enum.EasingDirection.In);
+	}
+	local tbl_5_upvr = {
+		FadeName = TweenService_upvr:Create(TextLabel_upvr_2, tbl_4_upvr.Fade, {
+			TextTransparency = 1;
+			TextStrokeTransparency = 1;
+		});
+		AppearName = TweenService_upvr:Create(TextLabel_upvr_2, tbl_4_upvr.Appear, {
+			TextTransparency = 0.1;
+			TextStrokeTransparency = 0.25;
+		});
+		FadeHealthNumb = TweenService_upvr:Create(TextLabel_upvr, tbl_4_upvr.Fade, {
+			TextTransparency = 1;
+			TextStrokeTransparency = 1;
+		});
+		AppearHealthNumb = TweenService_upvr:Create(TextLabel_upvr, tbl_4_upvr.Appear, {
+			TextTransparency = 0;
+			TextStrokeTransparency = 0.25;
+		});
+		FadeImage = TweenService_upvr:Create(IconImage_upvr, tbl_4_upvr.Fade, {
+			ImageTransparency = 1;
+		});
+		AppearImage = TweenService_upvr:Create(IconImage_upvr, tbl_4_upvr.Appear, {
+			ImageTransparency = 0;
+		});
+		MFrame_SlideUpX = TweenService_upvr:Create(NumberValue_upvr, tbl_4_upvr.SlideUp, {
+			Value = tbl_2_upvr.ClosePos.X.Scale;
+		});
+		MFrame_SlideUpY = TweenService_upvr:Create(NumberValue_upvr_3, tbl_4_upvr.SlideUp, {
+			Value = tbl_2_upvr.ClosePos.Y.Scale;
+		});
+		MFrame_SlideDownX = TweenService_upvr:Create(NumberValue_upvr, tbl_4_upvr.SlideDown, {
+			Value = tbl_2_upvr.OpenPos.X.Scale;
+		});
+		MFrame_SlideDownY = TweenService_upvr:Create(NumberValue_upvr_3, tbl_4_upvr.SlideDown, {
+			Value = tbl_2_upvr.OpenPos.Y.Scale;
+		});
+		MFrame_Rotation = TweenService_upvr:Create(tbl_2_upvr.RotationValue, tbl_4_upvr.Rotation, {
+			Value = 0;
+		});
+	}
+	local tbl_10_upvr = {
+		NPCs = {"Revenant"};
+		Humanoids = {"NPC"};
+	}
+	local tbl_11_upvr = {
+		Revenants = {
+			Default = {
+				ImageId = 129119296843496;
+				DisplayName = "REVENANT";
+			};
+			Wendigo = {
+				ImageId = 132680072199617;
+				DisplayName = "FORESTWALKER";
+			};
+			Damaged = {
+				ImageId = 139034907403175;
+				DisplayName = "Revenant";
+			};
+			Sawer = {
+				ImageId = 87297043723352;
+				DisplayName = "SAWER";
+			};
+			BloodAutumn = {
+				ImageId = 102877460396971;
+				DisplayName = "REVENANT";
+			};
+			LostMoon = {
+				ImageId = 91647606499841;
+				DisplayName = "REVENANT";
+			};
+			Armageddon = {
+				ImageId = 102877460396971;
+				DisplayName = "REVENANT";
+			};
+			Oblivion = {
+				ImageId = 91647606499841;
+				DisplayName = "REVENANT";
+			};
+			LunarEclipse = {
+				ImageId = 102877460396971;
+				DisplayName = "REVENANT";
+			};
+			ColdBlooded = {
+				ImageId = 102877460396971;
+				DisplayName = "REVENANT";
+			};
+			Enceladus = {
+				ImageId = 72137875905897;
+				DisplayName = "FORESTWALKER";
+			};
+			BloodNight = {
+				ImageId = 77374574351331;
+				DisplayName = "";
+				Glitch = true;
+				GlitchHP = true;
+			};
+			Parasite = {
+				ImageId = 131934095559094;
+				DisplayName = "";
+				Glitch = true;
+				GlitchHP = true;
+			};
+			Hazard = {
+				ImageId = 107582541208613;
+				DisplayName = "";
+				Glitch = true;
+				GlitchHP = true;
+			};
+			Blackout = {
+				ImageId = 123288037101461;
+				DisplayName = "";
+				Glitch = true;
+				GlitchHP = true;
+			};
+			Ghoul = {
+				ImageId = 140454184608957;
+				DisplayName = "GHOUL";
+			};
+			BLDSKY = {
+				ImageId = 133416433871119;
+				DisplayName = "GHOUL";
+			};
+			Seer = {
+				ImageId = 96768219110813;
+				DisplayName = "SEER";
+			};
+		};
+	}
+	local tbl_19_upvr = {
+		Default = {
+			[MainFrame_upvr] = {
+				BackgroundColor3 = MainFrame_upvr.BackgroundColor3;
+			};
+			[MainFrame] = {
+				BackgroundColor3 = MainFrame.BackgroundColor3;
+			};
+			[TextLabel_upvr_2] = {
+				TextColor3 = TextLabel_upvr_2.TextColor3;
+			};
+			[Bar_upvr] = {
+				BackgroundColor3 = Bar_upvr.BackgroundColor3;
+			};
+			[DrainBar_upvr] = {
+				BackgroundColor3 = DrainBar_upvr.BackgroundColor3;
+			};
+			[UIStroke] = {
+				Color = UIStroke.Color;
+			};
+			[UIStroke_2] = {
+				Color = UIStroke_2.Color;
+			};
+			[TextLabel_upvr] = {
+				TextColor3 = TextLabel_upvr.TextColor3;
+			};
+			[IconImage_upvr] = {
+				ImageColor3 = IconImage_upvr.ImageColor3;
+			};
+			[UIStroke_3] = {
+				Color = UIStroke_3.Color;
+			};
+		};
+		BloodNight = {
+			[MainFrame_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(58, 0, 0);
+			};
+			[MainFrame] = {
+				BackgroundColor3 = Color3.fromRGB(58, 0, 0);
+			};
+			[TextLabel_upvr_2] = {
+				TextColor3 = Color3.fromRGB(255, 0, 0);
+			};
+			[Bar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(48, 0, 0);
+			};
+			[DrainBar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(56, 0, 0);
+			};
+			[UIStroke] = {
+				Color = Color3.fromRGB(75, 0, 0);
+			};
+			[UIStroke_2] = {
+				Color = Color3.fromRGB(75, 0, 0);
+			};
+			[TextLabel_upvr] = {
+				TextColor3 = Color3.fromRGB(255, 0, 0);
+			};
+			[IconImage_upvr] = {
+				ImageColor3 = Color3.fromRGB(255, 0, 0);
+			};
+			[UIStroke_3] = {
+				Color = Color3.fromRGB(75, 0, 0);
+			};
+		};
+		Hazard = {
+			[MainFrame_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 58, 31);
+			};
+			[MainFrame] = {
+				BackgroundColor3 = Color3.fromRGB(0, 58, 31);
+			};
+			[TextLabel_upvr_2] = {
+				TextColor3 = Color3.fromRGB(0, 255, 115);
+			};
+			[Bar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 48, 25);
+			};
+			[DrainBar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 48, 26);
+			};
+			[UIStroke] = {
+				Color = Color3.fromRGB(0, 75, 31);
+			};
+			[UIStroke_2] = {
+				Color = Color3.fromRGB(0, 75, 31);
+			};
+			[TextLabel_upvr] = {
+				TextColor3 = Color3.fromRGB(0, 255, 115);
+			};
+			[IconImage_upvr] = {
+				ImageColor3 = Color3.fromRGB(0, 255, 115);
+			};
+			[UIStroke_3] = {
+				Color = Color3.fromRGB(0, 75, 31);
+			};
+		};
+		Blackout = {
+			[MainFrame_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[MainFrame] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[TextLabel_upvr_2] = {
+				TextColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[Bar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[DrainBar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[UIStroke] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+			[UIStroke_2] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+			[TextLabel_upvr] = {
+				TextColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[IconImage_upvr] = {
+				ImageColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[UIStroke_3] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+		};
+		Parasite = {
+			[MainFrame_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[MainFrame] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[TextLabel_upvr_2] = {
+				TextColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[Bar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[DrainBar_upvr] = {
+				BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+			};
+			[UIStroke] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+			[UIStroke_2] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+			[TextLabel_upvr] = {
+				TextColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[IconImage_upvr] = {
+				ImageColor3 = Color3.fromRGB(26, 26, 26);
+			};
+			[UIStroke_3] = {
+				Color = Color3.fromRGB(7, 7, 7);
+			};
+		};
+	}
+	NumberValue_upvr.Value = tbl_2_upvr.ClosePos.X.Scale
+	NumberValue_upvr_3.Value = tbl_2_upvr.ClosePos.Y.Scale
+	NumberValue_upvr_2.Value = 0
+	local function GetShakeValue_upvr(arg1, arg2) -- Line 545, Named "GetShakeValue"
+		for _, v in ipairs(arg2) do
+			if v.min <= arg1 and arg1 < v.max then
+				return v.value
+			end
+		end
+		return nil
+	end
+	local function GetNPCInfo_upvr(arg1) -- Line 553, Named "GetNPCInfo"
+		--[[ Upvalues[1]:
+			[1]: tbl_11_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 16 start (CF ANALYSIS FAILED)
+		local var157
+		if string.match(string.lower(arg1.Name), string.lower("Revenant")) then
+			var157 = tbl_11_upvr.Revenants
+		else
+			var157 = nil
+		end
+		local pairs_result1_2, pairs_result2, pairs_result3_2 = pairs(var157)
+		-- KONSTANTERROR: [0] 1. Error Block 16 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [41] 32. Error Block 9 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [41] 32. Error Block 9 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [26] 21. Error Block 6 start (CF ANALYSIS FAILED)
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [41.9]
+		-- KONSTANTERROR: [26] 21. Error Block 6 end (CF ANALYSIS FAILED)
+	end
+	local function AnimateTextColor_upvr(arg1, arg2) -- Line 575, Named "AnimateTextColor"
+		--[[ Upvalues[3]:
+			[1]: tbl_5_upvr (readonly)
+			[2]: TweenService_upvr (readonly)
+			[3]: tbl_4_upvr (readonly)
+		]]
+		if not tbl_5_upvr[arg1] then
+			if not arg1:GetAttribute("origColor") then
+				arg1:SetAttribute("origColor", arg1.TextColor3)
+			end
+			tbl_5_upvr[arg1] = {}
+			tbl_5_upvr[arg1].TextAdd = TweenService_upvr:Create(arg1, tbl_4_upvr.Colorize, {
+				TextColor3 = Color3.fromRGB(125, 255, 125);
+			})
+			tbl_5_upvr[arg1].TextSub = TweenService_upvr:Create(arg1, tbl_4_upvr.Colorize, {
+				TextColor3 = Color3.fromRGB(255, 125, 125);
+			})
+			tbl_5_upvr[arg1].TextDef = TweenService_upvr:Create(arg1, tbl_4_upvr.Colorize, {
+				TextColor3 = arg1:GetAttribute("origColor");
+			})
+		end
+		if tbl_5_upvr[arg1] then
+			if arg2 == "Add" then
+				tbl_5_upvr[arg1].TextAdd:Play()
+				tbl_5_upvr[arg1].TextAdd.Completed:Wait()
+				tbl_5_upvr[arg1].TextDef:Play()
+				return
+			end
+			if arg2 == "Sub" then
+				tbl_5_upvr[arg1].TextSub:Play()
+				tbl_5_upvr[arg1].TextSub.Completed:Wait()
+				tbl_5_upvr[arg1].TextDef:Play()
+			end
+		end
+	end
+	local function ApplyHealthShake_upvr(arg1) -- Line 605, Named "ApplyHealthShake"
+		--[[ Upvalues[4]:
+			[1]: GetShakeValue_upvr (readonly)
+			[2]: tbl_2_upvr (readonly)
+			[3]: any_new_result1_upvr (readonly)
+			[4]: any_new_result1_upvr_2 (readonly)
+		]]
+		local var164 = math.random() * math.pi * 2
+		local cosine_2 = math.cos(var164)
+		if math.random(0, 1) == 0 then
+			cosine_2 = -1
+		else
+			cosine_2 = 1
+		end
+		any_new_result1_upvr:accelerate((Vector2.new(cosine_2, math.sin(var164))) * (GetShakeValue_upvr(math.clamp(arg1, 0, math.huge), tbl_2_upvr.PosShakeValues) * math.random(90, 110) / 100))
+		any_new_result1_upvr_2:accelerate(GetShakeValue_upvr(math.clamp(arg1, 0, math.huge), tbl_2_upvr.RotShakeValues) * 8 * cosine_2)
+	end
+	local function UpdateHealthDisplay_upvr(arg1, arg2) -- Line 614, Named "UpdateHealthDisplay"
+		--[[ Upvalues[10]:
+			[1]: tbl_2_upvr (readonly)
+			[2]: MainFrame_upvr (readonly)
+			[3]: AnimateTextColor_upvr (readonly)
+			[4]: TextLabel_upvr (readonly)
+			[5]: ApplyHealthShake_upvr (readonly)
+			[6]: DrainBar_upvr (readonly)
+			[7]: Bar_upvr (readonly)
+			[8]: TweenService_upvr (readonly)
+			[9]: IconImage_upvr (readonly)
+			[10]: tbl_5_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		local var185 = arg1
+		if not var185 then
+			var185 = tbl_2_upvr.CurrentNPC
+			local var186
+		end
+		if var185 then
+			var186 = nil
+			if var185 then
+				var186 = var185:FindFirstChildOfClass("Humanoid")
+			else
+				var186 = var185
+			end
+			if var185 then
+				local var187
+				if var186 then
+					if not var185 or not var185:FindFirstChild("HumanoidRootPart") or not var185:FindFirstChild("Torso") and not var185:FindFirstChild("UpperTorso") and not var185:FindFirstChild("Base") then
+					else
+						local Health_2 = var186.Health
+						local MaxHealth_2 = var186.MaxHealth
+						local var191 = Health_2 / MaxHealth_2
+						var187 = "%1,"
+						var187 = ""
+						var187 = "(%d%d%d)"
+						var187 = ",$"
+						local any_reverse_result1_2 = tostring(math.floor(MaxHealth_2)):reverse():gsub(var187, "%1,"):gsub(var187, ""):reverse()
+						var187 = tbl_2_upvr.LastHealth - Health_2 / MaxHealth_2 * 100
+						var187 = tostring(tostring(math.floor(Health_2)):reverse():gsub("(%d%d%d)", var187):gsub(",$", var187):reverse())..'/'..tostring(any_reverse_result1_2)
+						local any_Lerp_result1_2 = tbl_2_upvr.Colors.HealthMax:Lerp(tbl_2_upvr.Colors.HealthMin, (1 - var191) ^ 3)
+						local class_ForceField_2 = var185:FindFirstChildOfClass("ForceField")
+						if tbl_2_upvr.PercentageMode then
+							var187 = string.format("%.0f%%", var191 * 100)
+						end
+						if arg2 == "OnlyText" then
+							MainFrame_upvr.Base.TextLabel.Text = var187
+						else
+							if not class_ForceField_2 then
+								if tbl_2_upvr.LastHealth < Health_2 then
+									task.spawn(AnimateTextColor_upvr, TextLabel_upvr, "Add")
+								else
+									task.spawn(AnimateTextColor_upvr, TextLabel_upvr, "Sub")
+									if tbl_2_upvr.UIState == "Open" then
+										local var196_upvr = var187 + tbl_2_upvr.LastHealth - Health_2 / 300
+										local function var195() -- Line 650
+											--[[ Upvalues[2]:
+												[1]: ApplyHealthShake_upvr (copied, readonly)
+												[2]: var196_upvr (readonly)
+											]]
+											ApplyHealthShake_upvr(var196_upvr)
+										end
+										task.spawn(var195)
+									end
+								end
+							end
+							if Health_2 < 0 then
+								var195 = "0/"
+								local var197 = var195
+								if tbl_2_upvr.PercentageMode then
+									var197 = "0%"
+								else
+									var197 = var197..tostring(any_reverse_result1_2)
+								end
+								var187 = var197
+								local udim2_6 = UDim2.fromScale(0, 1)
+							end
+							DrainBar_upvr.BackgroundColor3 = any_Lerp_result1_2
+							if 1000000000 < Health_2 then
+								MainFrame_upvr.Base.TextLabel.Text = "inf/inf"
+								DrainBar_upvr.Size = UDim2.new(1, 0, 1, 0)
+								Bar_upvr.Size = UDim2.new(1, 0, 1, 0)
+								if tbl_2_upvr.StyleActive then
+								else
+									Bar_upvr.BackgroundColor3 = tbl_2_upvr.Colors.HealthMin
+								end
+							else
+								MainFrame_upvr.Base.TextLabel.Text = var187
+								TweenService_upvr:Create(DrainBar_upvr, TweenInfo.new(0.65, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0.25), {
+									Size = udim2_6;
+								}):Play()
+								TweenService_upvr:Create(Bar_upvr, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+									Size = udim2_6;
+								}):Play()
+								if not tbl_2_upvr.StyleActive then
+									TweenService_upvr:Create(Bar_upvr, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+										BackgroundColor3 = any_Lerp_result1_2;
+									}):Play()
+								end
+							end
+							if not class_ForceField_2 and not tbl_2_upvr.StyleActive then
+								TweenService_upvr:Create(IconImage_upvr, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+									ImageColor3 = any_Lerp_result1_2;
+								}):Play()
+							end
+							tbl_2_upvr.LastHealth = 1000000000
+						end
+					end
+				end
+			end
+			task.spawn(function() -- Line 696
+				--[[ Upvalues[2]:
+					[1]: tbl_2_upvr (copied, readonly)
+					[2]: tbl_5_upvr (copied, readonly)
+				]]
+				if tbl_2_upvr.UIState == "Closed" then
+				else
+					tbl_2_upvr.UIState = "Closed"
+					tbl_2_upvr.UIState2 = ""
+					tbl_5_upvr.FadeName:Play()
+					tbl_5_upvr.FadeHealthNumb:Play()
+					tbl_5_upvr.FadeImage:Play()
+					tbl_5_upvr.MFrame_SlideUpX:Play()
+					tbl_5_upvr.MFrame_SlideUpY:Play()
+				end
+			end)
+			do
+				return
+			end
+		else
+			return
+		end
+	end
+	local function v_u_57_upvr(arg1) -- Line 742, Named "v_u_57"
+		--[[ Upvalues[1]:
+			[1]: MainFrame_2_upvr (readonly)
+		]]
+		if MainFrame_2_upvr and arg1 then
+			for _, v_2 in pairs(MainFrame_2_upvr:GetDescendants()) do
+				local var211 = arg1[v_2]
+				if var211 then
+					for i_4, v_3 in pairs(var211) do
+						if v_2[i_4] then
+							if typeof(v_3) == "Color3" and v_2:GetAttribute("origColor") then
+								v_2:SetAttribute("origColor", v_3)
+							end
+							v_2[i_4] = v_3
+						end
+					end
+				end
+			end
+		end
+	end
+	local function ToggleForceFieldEffect_upvr(arg1) -- Line 759, Named "ToggleForceFieldEffect"
+		--[[ Upvalues[5]:
+			[1]: IconImage_upvr (readonly)
+			[2]: TextLabel_upvr (readonly)
+			[3]: TextLabel_upvr_2 (readonly)
+			[4]: tbl_5_upvr (readonly)
+			[5]: TweenService_upvr (readonly)
+		]]
+		if arg1 then
+			IconImage_upvr.ImageColor3 = Color3.fromRGB(123, 242, 255)
+			TextLabel_upvr.TextColor3 = Color3.fromRGB(123, 242, 255)
+			TextLabel_upvr_2.TextColor3 = Color3.fromRGB(123, 242, 255)
+			tbl_5_upvr.FF_Text = TweenService_upvr:Create(TextLabel_upvr, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, -1, true, 0), {
+				TextColor3 = Color3.fromRGB(183, 251, 255);
+			})
+			tbl_5_upvr.FF_Text2 = TweenService_upvr:Create(TextLabel_upvr_2, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, -1, true, 0), {
+				TextColor3 = Color3.fromRGB(183, 251, 255);
+			})
+			tbl_5_upvr.FF_Icon = TweenService_upvr:Create(IconImage_upvr, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, -1, true, 0), {
+				ImageColor3 = Color3.fromRGB(183, 251, 255);
+			})
+		else
+			local tbl_18 = {}
+			local origColor_2 = TextLabel_upvr:GetAttribute("origColor")
+			if not origColor_2 then
+				origColor_2 = Color3.new(1, 1, 1)
+			end
+			tbl_18.TextColor3 = origColor_2
+			tbl_5_upvr.FF_Text = TweenService_upvr:Create(TextLabel_upvr, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), tbl_18)
+			local tbl_3 = {}
+			local origColor = TextLabel_upvr_2:GetAttribute("origColor")
+			if not origColor then
+				origColor = Color3.new(1, 1, 1)
+			end
+			tbl_3.TextColor3 = origColor
+			tbl_5_upvr.FF_Text2 = TweenService_upvr:Create(TextLabel_upvr_2, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), tbl_3)
+			local tbl_17 = {}
+			local origColor_3 = IconImage_upvr:GetAttribute("origColor")
+			if not origColor_3 then
+				origColor_3 = Color3.new(1, 1, 1)
+			end
+			tbl_17.ImageColor3 = origColor_3
+			tbl_5_upvr.FF_Icon = TweenService_upvr:Create(IconImage_upvr, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), tbl_17)
+		end
+		if tbl_5_upvr.FF_Text then
+			tbl_5_upvr.FF_Text:Play()
+		end
+		if tbl_5_upvr.FF_Text2 then
+			tbl_5_upvr.FF_Text2:Play()
+		end
+		if tbl_5_upvr.FF_Icon then
+			tbl_5_upvr.FF_Icon:Play()
+		end
+	end
+	local tbl_upvr = {}
+	local function SetupNPC_upvr(arg1) -- Line 794, Named "SetupNPC"
+		--[[ Upvalues[14]:
+			[1]: tbl_2_upvr (readonly)
+			[2]: var5_upvr (readonly)
+			[3]: tbl_10_upvr (readonly)
+			[4]: GetNPCInfo_upvr (readonly)
+			[5]: tbl_19_upvr (readonly)
+			[6]: IconImage_upvr (readonly)
+			[7]: TextLabel_upvr_2 (readonly)
+			[8]: v_u_57_upvr (readonly)
+			[9]: tbl_5_upvr (readonly)
+			[10]: Bar_upvr (readonly)
+			[11]: NumberValue_upvr_2 (readonly)
+			[12]: ToggleForceFieldEffect_upvr (readonly)
+			[13]: UpdateHealthDisplay_upvr (readonly)
+			[14]: tbl_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [4] 4. Error Block 2 start (CF ANALYSIS FAILED)
+		do
+			return
+		end
+		-- KONSTANTERROR: [4] 4. Error Block 2 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [5] 5. Error Block 3 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [5] 5. Error Block 3 end (CF ANALYSIS FAILED)
+	end
+	if not TextLabel_upvr:GetAttribute("origColor") then
+		TextLabel_upvr:SetAttribute("origColor", TextLabel_upvr.TextColor3)
+	end
+	if not TextLabel_upvr_2:GetAttribute("origColor") then
+		TextLabel_upvr_2:SetAttribute("origColor", TextLabel_upvr_2.TextColor3)
+	end
+	if not IconImage_upvr:GetAttribute("origColor") then
+		IconImage_upvr:SetAttribute("origColor", IconImage_upvr.ImageColor3)
+	end
+	local BGM_Event_upvr = Events.BindableEvents:WaitForChild("BGM_Event")
+	Events.RemoteEvents:WaitForChild("NPC_Event").OnClientEvent:Connect(function(arg1, arg2, arg3, arg4) -- Line 940
+		--[[ Upvalues[6]:
+			[1]: tbl_2_upvr (readonly)
+			[2]: tbl_5_upvr (readonly)
+			[3]: Bar_upvr (readonly)
+			[4]: NumberValue_upvr_2 (readonly)
+			[5]: SetupNPC_upvr (readonly)
+			[6]: BGM_Event_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [15] 14. Error Block 3 start (CF ANALYSIS FAILED)
+		local tbl_13 = {
+			Mode = "Initialize";
+		}
+		tbl_13.Character = arg1
+		tbl_13.NPC_Name = arg2
+		tbl_13.NPC_Type = arg3
+		BGM_Event_upvr:Fire("MonitorNpcBGM", tbl_13)
+		do
+			return
+		end
+		do
+			return
+		end
+		-- KONSTANTERROR: [15] 14. Error Block 3 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [33] 26. Error Block 9 start (CF ANALYSIS FAILED)
+		if arg4 == "Despawn" then
+			task.spawn(function() -- Line 995
+				--[[ Upvalues[2]:
+					[1]: tbl_2_upvr (copied, readonly)
+					[2]: tbl_5_upvr (copied, readonly)
+				]]
+				if tbl_2_upvr.UIState == "Closed" then
+				else
+					tbl_2_upvr.UIState = "Closed"
+					tbl_2_upvr.UIState2 = ""
+					tbl_5_upvr.FadeName:Play()
+					tbl_5_upvr.FadeHealthNumb:Play()
+					tbl_5_upvr.FadeImage:Play()
+					tbl_5_upvr.MFrame_SlideUpX:Play()
+					tbl_5_upvr.MFrame_SlideUpY:Play()
+				end
+			end)
+			if BGM_Event_upvr then
+				local tbl_9 = {
+					Mode = "Deinitialize";
+				}
+				tbl_9.Character = arg1
+				tbl_9.NPC_Name = arg2
+				tbl_9.NPC_Type = arg3
+				BGM_Event_upvr:Fire("MonitorNpcBGM", tbl_9)
+			end
+		end
+		-- KONSTANTERROR: [33] 26. Error Block 9 end (CF ANALYSIS FAILED)
+	end)
+	if AI:FindFirstChildOfClass("Model") and AI:FindFirstChildOfClass("Model"):FindFirstChildOfClass("Humanoid") then
+		SetupNPC_upvr(AI:FindFirstChildOfClass("Model"))
+	end
+	game:GetService("RunService").RenderStepped:Connect(function(arg1) -- Line 1048
+		--[[ Upvalues[13]:
+			[1]: any_new_result1_upvr (readonly)
+			[2]: MainFrame_2_upvr (readonly)
+			[3]: NumberValue_upvr (readonly)
+			[4]: NumberValue_upvr_3 (readonly)
+			[5]: any_new_result1_upvr_2 (readonly)
+			[6]: NumberValue_upvr_2 (readonly)
+			[7]: tbl_2_upvr (readonly)
+			[8]: TextLabel_upvr_2 (readonly)
+			[9]: var1_upvr (readonly)
+			[10]: TextLabel_upvr (readonly)
+			[11]: TweenService_upvr (readonly)
+			[12]: DrainBar_upvr (readonly)
+			[13]: Bar_upvr (readonly)
+		]]
+		local var249
+		if _G.FPS == nil then
+			var249 = 60
+		else
+			var249 = math.clamp(_G.FPS, 0, 60) or 60
+		end
+		local var250 = (any_new_result1_upvr.p) * (arg1 * var249)
+		MainFrame_2_upvr.Position = UDim2.new(NumberValue_upvr.Value, var250.X, NumberValue_upvr_3.Value, var250.Y)
+		MainFrame_2_upvr.Rotation = NumberValue_upvr_2.Value + any_new_result1_upvr_2.p
+		if tbl_2_upvr.Glitch then
+			if TextLabel_upvr_2 then
+				TextLabel_upvr_2.Text = var1_upvr(tbl_2_upvr.GlitchTexts[math.random(1, #tbl_2_upvr.GlitchTexts)])
+			end
+			local var251 = math.random() * math.pi * 2
+			local cosine = math.cos(var251)
+			if math.random(0, 1) == 0 then
+				cosine = -1
+			else
+				cosine = 1
+			end
+			any_new_result1_upvr:accelerate(Vector2.new(cosine, math.sin(var251)) * math.random(tbl_2_upvr.GlitchPosShake[1], tbl_2_upvr.GlitchPosShake[2]))
+			any_new_result1_upvr_2:accelerate(math.random(tbl_2_upvr.GlitchRotShake[1], tbl_2_upvr.GlitchRotShake[2]) * cosine)
+		end
+		if tbl_2_upvr.GlitchHP then
+			local var253
+			if var253 then
+				var253 = tbl_2_upvr.CurrentNPC
+				if var253 then
+					var253 = var253:FindFirstChildOfClass("Humanoid")
+				end
+				if var253 then
+					if math.random(1, 3) == 1 then
+						local tostring_result1_3 = tostring(math.floor(var253.Health))
+						local tostring_result1_2 = tostring(math.floor(var253.MaxHealth))
+						local string_sub_result1_2 = string.sub(tostring_result1_3, 1, math.random(1, #tostring_result1_3))
+						local string_sub_result1_3 = string.sub(tostring_result1_2, 1, math.random(1, #tostring_result1_2))
+						TextLabel_upvr.Text = string_sub_result1_2..'/'..string_sub_result1_3
+						if math.random(1, 2) == 1 then
+							local udim2_2 = UDim2.fromScale(math.clamp((tonumber(string_sub_result1_2) or 1) / (tonumber(string_sub_result1_3) or 1), 0, 1), 1)
+							TweenService_upvr:Create(DrainBar_upvr, TweenInfo.new(0.65, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+								Size = udim2_2;
+							}):Play()
+							TweenService_upvr:Create(Bar_upvr, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+								Size = udim2_2;
+							}):Play()
+						else
+							local udim2 = UDim2.fromScale(var253.Health / var253.MaxHealth, 1)
+							TweenService_upvr:Create(DrainBar_upvr, TweenInfo.new(0.65, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+								Size = udim2;
+							}):Play()
+							TweenService_upvr:Create(Bar_upvr, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+								Size = udim2;
+							}):Play()
+						end
+					end
+					TextLabel_upvr.Text = var1_upvr(tbl_2_upvr.GlitchTextsHP[math.random(1, #tbl_2_upvr.GlitchTextsHP)])
+				end
+			end
+		end
+	end)
+	function _G.Toggle_NPCHPB_PM(arg1) -- Line 1118
+		--[[ Upvalues[2]:
+			[1]: tbl_2_upvr (readonly)
+			[2]: UpdateHealthDisplay_upvr (readonly)
+		]]
+		tbl_2_upvr.PercentageMode = arg1
+		UpdateHealthDisplay_upvr(tbl_2_upvr.CurrentNPC, "OnlyText")
+	end
+	table.sort(tbl_2_upvr.PosShakeValues, function(arg1, arg2) -- Line 1122
+		local var265
+		if arg1.min >= arg2.min then
+			var265 = false
+		else
+			var265 = true
+		end
+		return var265
+	end)
+	table.sort(tbl_2_upvr.RotShakeValues, function(arg1, arg2) -- Line 1125
+		local var267
+		if arg1.min >= arg2.min then
+			var267 = false
+		else
+			var267 = true
+		end
+		return var267
+	end)
+end]]></ProtectedString><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Client]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="NumberValue" referent="2"><Properties><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ModuleScript" referent="3"><Properties><ProtectedString name="Source"><![CDATA[-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw
+
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-09 17:00:26
+-- Luau version 6, Types version 3
+-- Time taken: 0.012591 seconds
+
+({}).spring = {}
+local module = {}
+module.spring = module
+local cos_upvr = math.cos
+local sin_upvr = math.sin
+local tick_upvr = tick
+local setmetatable_upvr = setmetatable
+function module.new(arg1) -- Line 17
+	--[[ Upvalues[4]:
+		[1]: tick_upvr (readonly)
+		[2]: cos_upvr (readonly)
+		[3]: sin_upvr (readonly)
+		[4]: setmetatable_upvr (readonly)
+	]]
+	local var6_upvr = 0 * (arg1 or 0)
+	local var7_upvw = 1
+	local var8_upvw = 1
+	local var9_upvw = arg1 or var6_upvr
+	local var10_upvw = var6_upvr
+	local var11_upvw = arg1 or var6_upvr
+	local tick_upvr_result1_2_upvw = tick_upvr()
+	local var13_upvw = 0
+	local var14_upvw = var6_upvr
+	local var15_upvw = var6_upvr
+	local module_2 = {}
+	local module_3 = {}
+	local function updateAmplitudes_upvr() -- Line 30, Named "updateAmplitudes"
+		--[[ Upvalues[9]:
+			[1]: var8_upvw (read and write)
+			[2]: var13_upvw (read and write)
+			[3]: var14_upvw (read and write)
+			[4]: var6_upvr (readonly)
+			[5]: var15_upvw (read and write)
+			[6]: var7_upvw (read and write)
+			[7]: var9_upvw (read and write)
+			[8]: var11_upvw (read and write)
+			[9]: var10_upvw (read and write)
+		]]
+		if var8_upvw == 0 then
+			var13_upvw = 0
+			var14_upvw = var6_upvr
+			var15_upvw = var6_upvr
+		else
+			if var7_upvw < 0.99999999 then
+				var13_upvw = (1 - var7_upvw * var7_upvw) ^ 0.5
+				var14_upvw = var9_upvw - var11_upvw
+				var15_upvw = var7_upvw / var13_upvw * var14_upvw + (var10_upvw) / (var13_upvw * var8_upvw)
+				return
+			end
+			if var7_upvw < 1.00000001 then
+				var13_upvw = 0
+				var14_upvw = var9_upvw - var11_upvw
+				var15_upvw = var14_upvw + var10_upvw / var8_upvw
+				return
+			end
+			var13_upvw = (var7_upvw * var7_upvw - 1) ^ 0.5
+			local var18 = (-var10_upvw) / (var8_upvw * 2 * var13_upvw)
+			local var19 = -(var11_upvw - var9_upvw) / 2
+			var14_upvw = (1 - var7_upvw / var13_upvw) * var19 + var18
+			var15_upvw = (var7_upvw / var13_upvw + 1) * var19 - var18
+		end
+	end
+	local function getPosition_upvr(arg1_2) -- Line 53, Named "getPosition"
+		--[[ Upvalues[9]:
+			[1]: var9_upvw (read and write)
+			[2]: var8_upvw (read and write)
+			[3]: var7_upvw (read and write)
+			[4]: var13_upvw (read and write)
+			[5]: cos_upvr (copied, readonly)
+			[6]: sin_upvr (copied, readonly)
+			[7]: var14_upvw (read and write)
+			[8]: var15_upvw (read and write)
+			[9]: var11_upvw (read and write)
+		]]
+		if arg1_2 < 0.001 then
+			return var9_upvw
+		end
+		if var8_upvw == 0 then
+			return var9_upvw
+		end
+		if var7_upvw < 0.99999999 then
+			local var20 = 2.718281828459045 ^ (var7_upvw * var8_upvw * arg1_2)
+			return cos_upvr(var13_upvw * var8_upvw * arg1_2) / var20 * var14_upvw + sin_upvr(var13_upvw * var8_upvw * arg1_2) / var20 * var15_upvw + var11_upvw
+		end
+		if var7_upvw < 1.00000001 then
+			return (var14_upvw + var8_upvw * arg1_2 * var15_upvw) / 2.718281828459045 ^ (var8_upvw * arg1_2) + var11_upvw
+		end
+		return var14_upvw * 2.718281828459045 ^ ((-var7_upvw - var13_upvw) * var8_upvw * arg1_2) + var15_upvw * 2.718281828459045 ^ ((-var7_upvw + var13_upvw) * var8_upvw * arg1_2) + var11_upvw
+	end
+	local function getVelocity_upvr(arg1_3) -- Line 73, Named "getVelocity"
+		--[[ Upvalues[9]:
+			[1]: var10_upvw (read and write)
+			[2]: var8_upvw (read and write)
+			[3]: var9_upvw (read and write)
+			[4]: var7_upvw (read and write)
+			[5]: var13_upvw (read and write)
+			[6]: cos_upvr (copied, readonly)
+			[7]: sin_upvr (copied, readonly)
+			[8]: var15_upvw (read and write)
+			[9]: var14_upvw (read and write)
+		]]
+		if arg1_3 < 0.001 then
+			return var10_upvw
+		end
+		if var8_upvw == 0 then
+			return var9_upvw
+		end
+		if var7_upvw < 0.99999999 then
+			local var2_result1 = cos_upvr(var13_upvw * var8_upvw * arg1_3)
+			local sin_upvr_result1 = sin_upvr(var13_upvw * var8_upvw * arg1_3)
+			local var23 = 2.718281828459045 ^ (var7_upvw * var8_upvw * arg1_3)
+			return var8_upvw * (var2_result1 * var13_upvw - var7_upvw * sin_upvr_result1) / var23 * var15_upvw - var8_upvw * (var2_result1 * var7_upvw + var13_upvw * sin_upvr_result1) / var23 * var14_upvw
+		end
+		if var7_upvw < 1.00000001 then
+			return -var8_upvw / 2.718281828459045 ^ (var8_upvw * arg1_3) * (var14_upvw + (var8_upvw * arg1_3 - 1) * var15_upvw)
+		end
+		return 2.718281828459045 ^ ((-var7_upvw + var13_upvw) * var8_upvw * arg1_3) * (var13_upvw - var7_upvw) * var8_upvw * var15_upvw - 2.718281828459045 ^ ((-var7_upvw - var13_upvw) * var8_upvw * arg1_3) * (var7_upvw + var13_upvw) * var8_upvw * var14_upvw
+	end
+	local function getPositionAndVelocity_upvr(arg1_4) -- Line 91, Named "getPositionAndVelocity"
+		--[[ Upvalues[9]:
+			[1]: var8_upvw (read and write)
+			[2]: var9_upvw (read and write)
+			[3]: var7_upvw (read and write)
+			[4]: var13_upvw (read and write)
+			[5]: cos_upvr (copied, readonly)
+			[6]: sin_upvr (copied, readonly)
+			[7]: var14_upvw (read and write)
+			[8]: var15_upvw (read and write)
+			[9]: var11_upvw (read and write)
+		]]
+		if var8_upvw == 0 then
+			return var9_upvw
+		end
+		if var7_upvw < 0.99999999 then
+			local cos_upvr_result1 = cos_upvr(var13_upvw * var8_upvw * arg1_4)
+			local sin_upvr_result1_2 = sin_upvr(var13_upvw * var8_upvw * arg1_4)
+			local var26 = 2.718281828459045 ^ (var7_upvw * var8_upvw * arg1_4)
+			return cos_upvr_result1 / var26 * var14_upvw + sin_upvr_result1_2 / var26 * var15_upvw + var11_upvw, var8_upvw * (cos_upvr_result1 * var13_upvw - var7_upvw * sin_upvr_result1_2) / var26 * var15_upvw - var8_upvw * (cos_upvr_result1 * var7_upvw + var13_upvw * sin_upvr_result1_2) / var26 * var14_upvw
+		end
+		if var7_upvw < 1.00000001 then
+			local var27 = 2.718281828459045 ^ (var8_upvw * arg1_4)
+			return (var14_upvw + var8_upvw * arg1_4 * var15_upvw) / var27 + var11_upvw, -var8_upvw / var27 * (var14_upvw + (var8_upvw * arg1_4 - 1) * var15_upvw)
+		end
+		local var28 = 2.718281828459045 ^ ((-var7_upvw - var13_upvw) * var8_upvw * arg1_4)
+		local var29 = 2.718281828459045 ^ ((-var7_upvw + var13_upvw) * var8_upvw * arg1_4)
+		return var14_upvw * var28 + var15_upvw * var29 + var11_upvw, var29 * (var13_upvw - var7_upvw) * var8_upvw * var15_upvw - var28 * (var7_upvw + var13_upvw) * var8_upvw * var14_upvw
+	end
+	updateAmplitudes_upvr()
+	function module_2.getpv() -- Line 110
+		--[[ Upvalues[3]:
+			[1]: getPositionAndVelocity_upvr (readonly)
+			[2]: tick_upvr (copied, readonly)
+			[3]: tick_upvr_result1_2_upvw (read and write)
+		]]
+		return getPositionAndVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+	end
+	function module_2.setpv(arg1_5, arg2) -- Line 113
+		--[[ Upvalues[5]:
+			[1]: tick_upvr (copied, readonly)
+			[2]: var9_upvw (read and write)
+			[3]: var10_upvw (read and write)
+			[4]: tick_upvr_result1_2_upvw (read and write)
+			[5]: updateAmplitudes_upvr (readonly)
+		]]
+		var9_upvw = arg1_5
+		var10_upvw = arg2
+		tick_upvr_result1_2_upvw = tick_upvr()
+		updateAmplitudes_upvr()
+	end
+	function module_2.accelerate(arg1_6, arg2) -- Line 120
+		--[[ Upvalues[6]:
+			[1]: tick_upvr (copied, readonly)
+			[2]: getPositionAndVelocity_upvr (readonly)
+			[3]: tick_upvr_result1_2_upvw (read and write)
+			[4]: var9_upvw (read and write)
+			[5]: var10_upvw (read and write)
+			[6]: updateAmplitudes_upvr (readonly)
+		]]
+		local tick_upvr_result1_3 = tick_upvr()
+		local getPositionAndVelocity_upvr_result1_2, getPositionAndVelocity_upvr_result2 = getPositionAndVelocity_upvr(tick_upvr_result1_3 - tick_upvr_result1_2_upvw)
+		var9_upvw = getPositionAndVelocity_upvr_result1_2
+		var10_upvw = getPositionAndVelocity_upvr_result2 + arg2
+		tick_upvr_result1_2_upvw = tick_upvr_result1_3
+		updateAmplitudes_upvr()
+	end
+	function module_3.__index(arg1_7, arg2) -- Line 129
+		--[[ Upvalues[7]:
+			[1]: tick_upvr (copied, readonly)
+			[2]: getPosition_upvr (readonly)
+			[3]: tick_upvr_result1_2_upvw (read and write)
+			[4]: getVelocity_upvr (readonly)
+			[5]: var11_upvw (read and write)
+			[6]: var7_upvw (read and write)
+			[7]: var8_upvw (read and write)
+		]]
+		local tick_upvr_result1 = tick_upvr()
+		if arg2 == 'p' then
+			return getPosition_upvr(tick_upvr_result1 - tick_upvr_result1_2_upvw)
+		end
+		if arg2 == 'v' then
+			return getVelocity_upvr(tick_upvr_result1 - tick_upvr_result1_2_upvw)
+		end
+		if arg2 == 't' then
+			return var11_upvw
+		end
+		if arg2 == 'd' then
+			return var7_upvw
+		end
+		if arg2 == 's' then
+			return var8_upvw
+		end
+	end
+	function module_3.__newindex(arg1_8, arg2, arg3) -- Line 147
+		--[[ Upvalues[11]:
+			[1]: tick_upvr (copied, readonly)
+			[2]: getVelocity_upvr (readonly)
+			[3]: tick_upvr_result1_2_upvw (read and write)
+			[4]: var9_upvw (read and write)
+			[5]: var10_upvw (read and write)
+			[6]: getPosition_upvr (readonly)
+			[7]: getPositionAndVelocity_upvr (readonly)
+			[8]: var11_upvw (read and write)
+			[9]: var7_upvw (read and write)
+			[10]: var8_upvw (read and write)
+			[11]: updateAmplitudes_upvr (readonly)
+		]]
+		local var34
+		if arg2 == 'p' then
+			var9_upvw = var34
+			var10_upvw = getVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+		elseif arg2 == 'v' then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			var9_upvw = getPosition_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+			var10_upvw = var34
+		elseif arg2 == 't' then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			local getPositionAndVelocity_result1, getPositionAndVelocity_result2_4 = getPositionAndVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+			var9_upvw = getPositionAndVelocity_result1
+			var10_upvw = getPositionAndVelocity_result2_4
+			var11_upvw = var34
+		elseif arg2 == 'd' then
+			if var34 == nil then
+				warn("nil value for d")
+				warn(debug.stacktrace())
+			end
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			local getPositionAndVelocity_upvr_result1, getPositionAndVelocity_result2_2 = getPositionAndVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+			var9_upvw = getPositionAndVelocity_upvr_result1
+			var10_upvw = getPositionAndVelocity_result2_2
+			var7_upvw = var7_upvw
+		elseif arg2 == 's' then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if var7_upvw == nil then
+				warn("nil value for s")
+				warn(debug.stacktrace())
+			end
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			local getPositionAndVelocity_upvr_result1_3, getPositionAndVelocity_result2_3 = getPositionAndVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+			var9_upvw = getPositionAndVelocity_upvr_result1_3
+			var10_upvw = getPositionAndVelocity_result2_3
+			var8_upvw = var8_upvw
+		elseif arg2 == 'a' then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			local getPositionAndVelocity_result1_2, getPositionAndVelocity_result2 = getPositionAndVelocity_upvr(tick_upvr() - tick_upvr_result1_2_upvw)
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			var9_upvw = getPositionAndVelocity_result1_2
+			var10_upvw = getPositionAndVelocity_result2 + var8_upvw
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		tick_upvr_result1_2_upvw = tick_upvr()
+		updateAmplitudes_upvr()
+	end
+	return setmetatable_upvr(module_2, module_3)
+end
+local atan2_upvr = math.atan2
+local function solvePolynomial_upvr(arg1, arg2, arg3, arg4, arg5) -- Line 193, Named "solvePolynomial"
+	--[[ Upvalues[4]:
+		[1]: solvePolynomial_upvr (readonly)
+		[2]: atan2_upvr (readonly)
+		[3]: cos_upvr (readonly)
+		[4]: sin_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [279] 267. Error Block 35 start (CF ANALYSIS FAILED)
+	do
+		return -arg2 / arg1
+	end
+	do
+		return
+	end
+	-- KONSTANTERROR: [279] 267. Error Block 35 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [283] 271. Error Block 36 start (CF ANALYSIS FAILED)
+	do
+		return
+	end
+	-- KONSTANTERROR: [283] 271. Error Block 36 end (CF ANALYSIS FAILED)
+end
+module.solve = solvePolynomial_upvr
+local function findMinPositive_upvr(arg1, arg2, arg3, arg4) -- Line 268, Named "findMinPositive"
+	if arg1 and 0 <= arg1 then
+		return arg1
+	end
+	if arg2 and 0 <= arg2 then
+		return arg2
+	end
+	if arg3 and 0 <= arg3 then
+		return arg3
+	end
+	if arg4 and 0 <= arg4 then
+		return arg4
+	end
+end
+module.minpos = findMinPositive_upvr
+function module.minposroot(arg1, arg2, arg3, arg4, arg5) -- Line 283
+	--[[ Upvalues[2]:
+		[1]: findMinPositive_upvr (readonly)
+		[2]: solvePolynomial_upvr (readonly)
+	]]
+	return findMinPositive_upvr(solvePolynomial_upvr(arg1, arg2, arg3, arg4, arg5))
+end
+function module.cpoint_traj_point() -- Line 286
+end
+function module.simple_trajectory() -- Line 288
+end
+local Dot_upvr = Vector3.new().Dot
+function module.trajectory(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 290
+	--[[ Upvalues[2]:
+		[1]: solvePolynomial_upvr (readonly)
+		[2]: Dot_upvr (readonly)
+	]]
+	local var45 = arg4 - arg1
+	local var46 = arg5 - arg2
+	local var47 = arg6 - arg3
+	local solvePolynomial_result1, solvePolynomial_result2, solvePolynomial_result3, solvePolynomial_result4 = solvePolynomial_upvr(Dot_upvr(var47, var47) / 4, Dot_upvr(var47, var46), Dot_upvr(var47, var45) + Dot_upvr(var46, var46) - arg7 * arg7, 2 * Dot_upvr(var45, var46), Dot_upvr(var45, var45))
+	if solvePolynomial_result1 and 0 < solvePolynomial_result1 then
+		return var47 * solvePolynomial_result1 / 2 + arg5 + var45 / solvePolynomial_result1, solvePolynomial_result1
+	end
+	if solvePolynomial_result2 and 0 < solvePolynomial_result2 then
+		return var47 * solvePolynomial_result2 / 2 + arg5 + var45 / solvePolynomial_result2, solvePolynomial_result2
+	end
+	if solvePolynomial_result3 and 0 < solvePolynomial_result3 then
+		return var47 * solvePolynomial_result3 / 2 + arg5 + var45 / solvePolynomial_result3, solvePolynomial_result3
+	end
+	if solvePolynomial_result4 and 0 < solvePolynomial_result4 then
+		return var47 * solvePolynomial_result4 / 2 + arg5 + var45 / solvePolynomial_result4, solvePolynomial_result4
+	end
+end
+return module]]></ProtectedString><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Spring2]]></string><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="NumberValue" referent="4"><Properties><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="Frame" referent="5"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.10000000149011612</YS><YO>0</YO></UDim2><float name="Rotation">0.02176368236541748</float><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>0.07500000298023224</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="6"><Properties><float name="AspectRatio">6</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="7"><Properties><Vector2 name="AnchorPoint"><X>0</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IconFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="8"><Properties><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="9"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.8999999761581421</XS><XO>0</XO><YS>0.8999999761581421</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIStroke" referent="10"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UICorner" referent="11"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ViewportFrame" referent="12"><Properties><Color3 name="Ambient"><R>0</R><G>0</G><B>0</B></Color3><CoordinateFrame name="CameraCFrame"><X>0</X><Y>0</Y><Z>0</Z><R00>1</R00><R01>0</R01><R02>0</R02><R10>0</R10><R11>1</R11><R12>0</R12><R20>0</R20><R21>0</R21><R22>1</R22></CoordinateFrame><float name="CameraFieldOfView">1.2217305898666382</float><Color3 name="LightColor"><R>0.7490196228027344</R><G>0.7490196228027344</G><B>0.7490196228027344</B></Color3><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties><Item class="UICorner" referent="13"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UIGradient" referent="14"><Properties><float name="Rotation">90</float><NumberSequence name="Transparency">0 0 0 0.75 0 0 1 1 0 </NumberSequence><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="UIGradient" referent="15"><Properties><ColorSequence name="Color">0 0.564706027507782 0.564706027507782 0.564706027507782 0 0.2629759907722473 1 1 1 0 1 0 0 0 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="ImageLabel" referent="16"><Properties><Content name="Image"><url><![CDATA[http://www.roblox.com/asset/?id=129119296843496]]></url></Content><token name="ScaleType">3</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9350000023841858</XS><XO>0</XO><YS>0.9350000023841858</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IconImage]]></string><BinaryString name="Tags"></BinaryString></Properties></Item></Item></Item><Item class="Frame" referent="17"><Properties><Vector2 name="AnchorPoint"><X>1</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>1</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[BarFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIAspectRatioConstraint" referent="18"><Properties><float name="AspectRatio">5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="19"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.75</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[MainFrame]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UICorner" referent="20"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="21"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.7250000238418579</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.4000000059604645</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Base]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UIStroke" referent="22"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UICorner" referent="23"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="24"><Properties><Vector2 name="AnchorPoint"><X>0</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.8823529481887817</R><G>0.8823529481887817</G><B>0.8823529481887817</B></Color3><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Bar]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UICorner" referent="25"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UIGradient" referent="26"><Properties><ColorSequence name="Color">0 0.784313976764679 0.784313976764679 0.784313976764679 0 0.5 1 1 1 0 1 0.784313976764679 0.784313976764679 0.784313976764679 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="TextLabel" referent="27"><Properties><Font name="FontFace"><Family><url><![CDATA[rbxasset://fonts/families/GothamSSm.json]]></url></Family><Weight>600</Weight><Style>Normal</Style></Font><string name="Text"><![CDATA[4,000/4,000]]></string><Color3 name="TextColor3"><R>1</R><G>1</G><B>1</B></Color3><bool name="TextScaled">true</bool><float name="TextSize">14</float><float name="TextStrokeTransparency">0.25</float><bool name="TextWrapped">true</bool><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><int name="ZIndex">2</int><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="Frame" referent="28"><Properties><Vector2 name="AnchorPoint"><X>0</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0.8823529481887817</R><G>0.8823529481887817</G><B>0.8823529481887817</B></Color3><float name="BackgroundTransparency">0.5</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>1</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[DrainBar]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="UICorner" referent="29"><Properties><UDim name="CornerRadius"><S>0</S><O>5</O></UDim><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item></Item><Item class="Frame" referent="30"><Properties><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>0</R><G>0</G><B>0</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.2750000059604645</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.9750000238418579</XS><XO>0</XO><YS>0.4000000059604645</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[Title]]></string><BinaryString name="Tags"></BinaryString></Properties><Item class="TextLabel" referent="31"><Properties><Font name="FontFace"><Family><url><![CDATA[rbxasset://fonts/families/GothamSSm.json]]></url></Family><Weight>700</Weight><Style>Normal</Style></Font><string name="LocalizationMatchIdentifier"><![CDATA[8d89bb4c-14e8-4c08-8890-a876dc7db884]]></string><string name="LocalizationMatchedSourceText"><![CDATA[REVENANT'S HEALTH]]></string><string name="Text"><![CDATA[REVENANT'S HEALTH]]></string><Color3 name="TextColor3"><R>1</R><G>1</G><B>1</B></Color3><bool name="TextScaled">true</bool><float name="TextSize">14</float><float name="TextStrokeTransparency">0.25</float><float name="TextTransparency">0.10000000149011612</float><bool name="TextWrapped">true</bool><token name="TextXAlignment">0</token><Vector2 name="AnchorPoint"><X>0.5</X><Y>0.5</Y></Vector2><Color3 name="BackgroundColor3"><R>1</R><G>1</G><B>1</B></Color3><float name="BackgroundTransparency">1</float><Color3 name="BorderColor3"><R>0</R><G>0</G><B>0</B></Color3><int name="BorderSizePixel">0</int><UDim2 name="Position"><XS>0.5</XS><XO>0</XO><YS>0.5</YS><YO>0</YO></UDim2><UDim2 name="Size"><XS>0.949999988079071</XS><XO>0</XO><YS>1</YS><YO>0</YO></UDim2><BinaryString name="AttributesSerialize">AQAAAAkAAABvcmlnQ29sb3IPAACAPwAAgD8AAIA/</BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="UIGradient" referent="32"><Properties><ColorSequence name="Color">0 0.564706027507782 0.564706027507782 0.564706027507782 0 0.2629759907722473 1 1 1 0 1 0 0 0 0 </ColorSequence><float name="Rotation">90</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item><Item class="UIStroke" referent="33"><Properties><Color3 name="Color"><R>0.29411765933036804</R><G>0.29411765933036804</G><B>0.29411765933036804</B></Color3><float name="Thickness">2</float><float name="Transparency">0.5</float><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><BinaryString name="Tags"></BinaryString></Properties></Item></Item></Item></Item><Item class="BoolValue" referent="34"><Properties><bool name="Value">true</bool><BinaryString name="AttributesSerialize"></BinaryString><bool name="DefinesCapabilities">false</bool><string name="Name"><![CDATA[IsToggable]]></string><BinaryString name="Tags"></BinaryString></Properties></Item></Item><Item class="Script" referent="35"><Properties><string name="Name"><![CDATA[README]]></string><ProtectedString name="Source"><![CDATA[--[[
+		Thank you for using UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw.
+
+		If you didn't save in Binary (rbxl) - it's recommended to save the game right away to take advantage of the binary format & to preserve values of certain properties if you used IgnoreDefaultProperties setting (as they might change in the future).
+		You can do that by going to FILE -> Save to File As -> Make sure File Name ends with .rbxl -> Save
+
+		ServerStorage, ServerScriptService and Server Scripts are IMPOSSIBLE to save because of FilteringEnabled.
+
+		If your player cannot spawn into the game, please move the scripts in StarterPlayer somewhere else or delete them. Then run `game:GetService("Players").CharacterAutoLoads = true`.
+		And use "Play Here" to start game instead of "Play" to spawn your Character where your Camera currently is.
+
+		If the chat system does not work, please use the explorer and delete everything inside the TextChatService/Chat service(s). 
+		Or run `game:GetService("Chat"):ClearAllChildren() game:GetService("TextChatService"):ClearAllChildren()`
+				
+		If Union and MeshPart collisions don't work, run the script below in the Studio Command Bar:
+				
+				
+		local C = game:GetService("CoreGui")
+		local D = Enum.CollisionFidelity.Default
+				
+		for _, v in game:GetDescendants() do
+			if v:IsA("TriangleMeshPart") and not v:IsDescendantOf(C) then
+				v.CollisionFidelity = D
+			end
+		end
+		print("Done")
+				
+		If you can't move the Camera, run this script in the Studio Command Bar:
+			
+		workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed
+		
+		Or Destroy the Camera.
+
+		This file was generated with the following settings:
+		{"SaveBytecode":false,"Callback":false,"ShowStatus":true,"IgnoreDefaultPlayerScripts":true,"NilInstancesFixes":{"BaseWrap":null,"Animator":null,"Attachment":null,"PackageLink":null,"AdPortal":null},"IgnoreList":["CoreGui","CorePackages"],"__DEBUG_MODE":false,"DecompileJobless":false,"IgnoreNotArchivable":true,"RemovePlayerCharacters":false,"Object":null,"DecompileIgnore":["TextChatService",null,null,null,null,null,null,null,null,null,null],"IgnoreSpecialProperties":true,"TreatUnionsAsParts":false,"IsModel":false,"NilInstances":false,"ExtraInstances":[],"noscripts":false,"ReadMe":true,"OptionsAliases":{"SavePlayers":"IsolatePlayers","IgnoreArchivable":"IgnoreNotArchivable","DecompileTimeout":"timeout","SaveNonCreatable":"SaveNotCreatable","InstancesBlacklist":"IgnoreList","IsolatePlayerGui":"IsolateLocalPlayer","FileName":"FilePath","IgnoreDefaultProps":"IgnoreDefaultProperties"},"scriptcache":true,"SharedStringOverwrite":false,"AlternativeWritefile":true,"mode":"optimized","SaveCacheInterval":56320,"IgnoreSharedStrings":true,"IsolatePlayers":false,"NotCreatableFixes":["","AdvancedDragger","AnimationTrack","Dragger","Player","PlayerGui","PlayerMouse","PlayerMouse","PlayerScripts","ScreenshotHud","StudioData","TextChatMessage","TextSource","TouchTransmitter","Translator"],"timeout":10,"IgnoreDefaultProperties":true,"Anonymous":false,"IsolateStarterPlayer":false,"IsolateLocalPlayerCharacter":false,"IgnorePropertiesOfNotScriptsOnScriptsMode":false,"AvoidFileOverwrite":true,"SaveNotCreatable":false,"IsolateLocalPlayer":false,"FilePath":"血量ui。.txt","AntiIdle":true,"ShutdownWhenDone":false,"SafeMode":false,"IgnoreProperties":[]}
+
+		Elapsed time: 3.0409526149742305 Date (UTC): 10 February 2026 01:00:27 PlaceId: 94625834724938 PlaceVersion: 3738 Client Version: 2.706.750 Executor: Delta 1.0.706.750 arm64
+]]]]></ProtectedString></Properties></Item></roblox><!-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw -->
