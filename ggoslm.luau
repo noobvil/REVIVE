@@ -1,13 +1,16 @@
 local replicatedstorage = game:GetService("ReplicatedStorage")
 local library = loadstring(game:HttpGet('https://raw.githubusercontent.com/ovoch228/depthsoimgui/refs/heads/main/library'))()
 local bytenet = require(replicatedstorage:WaitForChild("Teawork"):WaitForChild("Shared"):WaitForChild("Services"):WaitForChild("ByteNetworking"))
+
 local api = {}
 
 function api:Loadout(towers: table)
     if game.PlaceId ~= 98936097545088 then return end
     for i = 1, #towers do
-        bytenet.Inventory.EquipTower.invoke({["TowerID"] = towers[i], ["Slot"] = i})
-        task.wait(0.5)
+        local success = pcall(function()
+            bytenet.Inventory.EquipTower.invoke({["TowerID"] = towers[i], ["Slot"] = i})
+        end)
+        task.wait(0.25)
     end
 end
 
@@ -30,10 +33,10 @@ env.timer = 0
 env.lasttime = ostime()
 env.waveinfo = 1
 env.isroundover = false
-env.totalplacedtowers = 0
-env.firsttower = 1
+env.towerindex = {}
+env.towercount = 0
+env.towerlookup = {}
 env.destroyui = false
-env.timermultiplier = 2
 
 local window = library:CreateWindow({
     Title = "Shitty X",
@@ -63,7 +66,7 @@ local logs = logstab:Console({
 
 function updatelog(text: string)
     setthreadidentity(7)
-    logs:AppendText(DateTime.now():FormatLocalTime("HH:mm:ss", "en-us") .. ": " .. text)
+    logs:AppendText(DateTime.now():FormatLocalTime("HH:mm:ss", "en-us") .. ":", text)
     loglabel:SetText("Last Log: " .. text)
 end
 
@@ -71,40 +74,29 @@ window:ShowTab(logtab)
 updatelog("Voting")
 
 function waitTime(time, wave)
-    local starttime = ostime()
-    
     while env.waveinfo < wave and not env.isroundover do
-        taskwait(0.05)
+        taskwait()
     end
-    
-    if env.isroundover then return false end
-    
-    while (ostime() - starttime) < time and not env.isroundover do
-        taskwait(0.05)
+    while env.timer < time and not env.isroundover do
+        taskwait()
     end
-    
     return not env.isroundover
 end
 
 function api:Loop(func)
     if game.PlaceId ~= 124069847780670 then return end
-    
-    task.spawn(function()
-        while not env.isroundover do
-            local success, err = pcall(func)
-            if not success then
-                updatelog("Error in loop: " .. tostring(err))
-            end
-            taskwait(0.03)
-        end
-    end)
+    while taskwait() do
+        pcall(func)
+    end
 end
 
 function api:Start()
     bytenet.Timescale.SetTimescale.send(2)
     env.waveinfo = mapinfo:GetAttribute("Wave") or 1
     env.timer = 0
-    env.lasttime = ostime()
+    env.towerindex = {}
+    env.towercount = 0
+    env.towerlookup = {}
     
     mapinfo:GetAttributeChangedSignal("Wave"):Connect(function()
         env.waveinfo = mapinfo:GetAttribute("Wave")
@@ -117,9 +109,10 @@ function api:Start()
     updatelog("Game Started")
     
     task.spawn(function()
+        env.lasttime = ostime()
         while true do
-            env.timer = (ostime() - env.lasttime) * env.timermultiplier
-            taskwait(0.1)
+            env.timer = ostime() - env.lasttime
+            taskwait()
         end
     end)
 end
@@ -129,17 +122,13 @@ function api:Difficulty(diff: string)
     bytenet.DifficultyVote.Vote.send(diff)
     
     while #mapinfo:GetAttribute("Difficulty") == 0 do
-        taskwait(0.05)
+        taskwait()
     end
     
     env.lasttime = ostime()
     env.timer = 0
     env.waveinfo = 1
-    env.isroundover = false
-    env.totalplacedtowers = 0
-    env.firsttower = 1
-    
-    taskwait(0.5)
+    taskwait(0.1)
 end
 
 function api:Ready(time: number, wave: number)
@@ -152,12 +141,9 @@ end
 function api:Skip(time: number, wave: number)
     if waitTime(time, wave) then
         updatelog(`Skipping Wave {wave}`)
-        local success, err = pcall(function()
+        pcall(function()
             replicatedstorage:WaitForChild("ByteNetReliable"):FireServer(buffer.fromstring("\148\001"))
         end)
-        if not success then
-            updatelog("Skip failed: " .. tostring(err))
-        end
     end
 end
 
@@ -170,113 +156,89 @@ end
 
 function api:Place(tower: string, position: Vector3, time: number, wave: number)
     if waitTime(time, wave) then
-        env.totalplacedtowers = env.totalplacedtowers + 1
+        env.towercount = env.towercount + 1
+        local uid = env.towercount
         
-        updatelog(`Placed Tower {tower} (Total: {env.totalplacedtowers})`)
-        
-        local success, err = pcall(function()
-            towers.PlaceTower.invoke({
+        local success, result = pcall(function()
+            return towers.PlaceTower.invoke({
                 ["Position"] = position,
                 ["Rotation"] = 0,
                 ["TowerID"] = tower
             })
         end)
         
-        if not success then
-            updatelog("Place failed: " .. tostring(err))
-            env.totalplacedtowers = env.totalplacedtowers - 1
+        if success and result and result.UID then
+            env.towerlookup[uid] = result.UID
+            env.towerindex[result.UID] = uid
         end
         
-        taskwait(0.1)
+        updatelog(`Placed Tower {tower} (UID: {uid})`)
     end
 end
 
 function api:Upgrade(tower: number, time: number, wave: number)
     if waitTime(time, wave) then
-        local realindex = env.firsttower + (tower - 1)
-        
-        updatelog(`Upgraded Tower {tower} (Index: {realindex})`)
-        
-        local success, err = pcall(function()
-            towers.UpgradeTower.invoke(realindex)
-        end)
-        
-        if not success then
-            updatelog("Upgrade failed: " .. tostring(err))
+        local realuid = env.towerlookup[tower]
+        if realuid then
+            pcall(function()
+                towers.UpgradeTower.invoke(realuid)
+            end)
+            updatelog(`Upgraded Tower {tower} (UID: {realuid})`)
+        else
+            updatelog(`Failed to upgrade Tower {tower}: UID not found`)
         end
-        
-        taskwait(0.1)
     end
 end
 
 function api:SetTarget(tower: number, target: string, time: number, wave: number)
     if waitTime(time, wave) then
-        local realindex = env.firsttower + (tower - 1)
-        
-        updatelog(`Changed Tower {tower} (Index: {realindex}) Target to {target}`)
-        
-        local success, err = pcall(function()
-            towers.SetTargetMode.send({
-                ["UID"] = realindex,
-                ["TargetMode"] = target
-            })
-        end)
-        
-        if not success then
-            updatelog("SetTarget failed: " .. tostring(err))
+        local realuid = env.towerlookup[tower]
+        if realuid then
+            pcall(function()
+                towers.SetTargetMode.send({
+                    ["UID"] = realuid,
+                    ["TargetMode"] = target
+                })
+            end)
+            updatelog(`Changed Tower {tower} Target to {target}`)
         end
-        
-        taskwait(0.1)
     end
 end
 
 function api:Sell(tower: number, time: number, wave: number)
     if waitTime(time, wave) then
-        local realindex = env.firsttower + (tower - 1)
-        
-        updatelog(`Sold Tower {tower} (Index: {realindex})`)
-        
-        local success, err = pcall(function()
-            towers.SellTower.invoke(realindex)
-        end)
-        
-        if not success then
-            updatelog("Sell failed: " .. tostring(err))
+        local realuid = env.towerlookup[tower]
+        if realuid then
+            pcall(function()
+                towers.SellTower.invoke(realuid)
+            end)
+            updatelog(`Sold Tower {tower} (UID: {realuid})`)
+            env.towerlookup[tower] = nil
         end
-        
-        taskwait(0.1)
     end
 end
 
 function api:PlayAgain()
-    updatelog("Waiting for round to end...")
-    
     while not env.isroundover do
-        taskwait(0.1)
+        taskwait()
     end
-    
-    env.firsttower = env.totalplacedtowers + 1
-    
-    updatelog(`Round ended. Next first tower index: {env.firsttower}`)
-    
-    env.lasttime = ostime()
-    env.timer = 0
-    env.waveinfo = 1
-    env.isroundover = false
     
     taskwait(1)
     
-    local success, err = pcall(function()
+    local success = pcall(function()
         bytenet.RoundResult.VoteForRestart.send(true)
     end)
     
     if success then
         updatelog("Voted for restart")
-    else
-        updatelog("Vote failed: " .. tostring(err))
     end
     
-    taskwait(2)
+    env.lasttime = ostime()
+    env.timer = 0
+    env.waveinfo = 1
+    env.towerindex = {}
+    env.towercount = 0
+    env.towerlookup = {}
 end
 
 return api
