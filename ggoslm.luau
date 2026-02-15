@@ -33,8 +33,8 @@ env.timer = 0
 env.lasttime = ostime()
 env.waveinfo = 1
 env.isroundover = false
-env.towerlist = {}
-env.placementcounter = 0
+env.totalplaced = 0
+env.firsttower = 1
 env.destroyui = false
 
 local window = library:CreateWindow({
@@ -93,8 +93,8 @@ function api:Start()
     bytenet.Timescale.SetTimescale.send(2)
     env.waveinfo = mapinfo:GetAttribute("Wave") or 1
     env.timer = 0
-    env.towerlist = {}
-    env.placementcounter = 0
+    env.totalplaced = 0
+    env.firsttower = 1
     
     mapinfo:GetAttributeChangedSignal("Wave"):Connect(function()
         env.waveinfo = mapinfo:GetAttribute("Wave")
@@ -154,27 +154,21 @@ end
 
 function api:Place(tower: string, position: Vector3, time: number, wave: number)
     if waitTime(time, wave) then
-        env.placementcounter = env.placementcounter + 1
-        local index = env.placementcounter
+        env.totalplaced = env.totalplaced + 1
         
-        local success, result = pcall(function()
-            return towers.PlaceTower.invoke({
+        local success = pcall(function()
+            towers.PlaceTower.invoke({
                 ["Position"] = position,
                 ["Rotation"] = 0,
                 ["TowerID"] = tower
             })
         end)
         
-        if success and result then
-            env.towerlist[index] = {
-                uid = result.UID or result,
-                placed = true,
-                upgrades = 0
-            }
-            updatelog(`Placed Tower {tower} (#{index})`)
+        if success then
+            updatelog(`Placed Tower {tower}`)
         else
             updatelog(`Place failed for {tower}, retrying`)
-            env.placementcounter = env.placementcounter - 1
+            env.totalplaced = env.totalplaced - 1
             taskwait(0.1)
             return api:Place(tower, position, time, wave)
         end
@@ -183,54 +177,44 @@ end
 
 function api:Upgrade(tower: number, time: number, wave: number)
     if waitTime(time, wave) then
-        local towerdata = env.towerlist[tower]
+        local realindex = env.firsttower + (tower - 1)
         
-        if towerdata and towerdata.uid then
-            local success = pcall(function()
-                towers.UpgradeTower.invoke(towerdata.uid)
-            end)
-            
-            if success then
-                towerdata.upgrades = towerdata.upgrades + 1
-                updatelog(`Upgraded Tower #{tower} (Lvl {towerdata.upgrades + 1})`)
-            else
-                updatelog(`Upgrade failed for #{tower}, retrying`)
-                taskwait(0.1)
-                return api:Upgrade(tower, time, wave)
-            end
+        local success = pcall(function()
+            towers.UpgradeTower.invoke(realindex)
+        end)
+        
+        if success then
+            updatelog(`Upgraded Tower {tower}`)
         else
-            updatelog(`Tower #{tower} data missing, cannot upgrade`)
+            updatelog(`Upgrade failed for Tower {tower}, retrying`)
+            taskwait(0.1)
+            return api:Upgrade(tower, time, wave)
         end
     end
 end
 
 function api:SetTarget(tower: number, target: string, time: number, wave: number)
     if waitTime(time, wave) then
-        local towerdata = env.towerlist[tower]
+        local realindex = env.firsttower + (tower - 1)
         
-        if towerdata and towerdata.uid then
-            pcall(function()
-                towers.SetTargetMode.send({
-                    ["UID"] = towerdata.uid,
-                    ["TargetMode"] = target
-                })
-            end)
-            updatelog(`Changed Tower #{tower} Target to {target}`)
-        end
+        pcall(function()
+            towers.SetTargetMode.send({
+                ["UID"] = realindex,
+                ["TargetMode"] = target
+            })
+        end)
+        updatelog(`Changed Tower {tower} Target to {target}`)
     end
 end
 
 function api:Sell(tower: number, time: number, wave: number)
     if waitTime(time, wave) then
-        local towerdata = env.towerlist[tower]
+        local realindex = env.firsttower + (tower - 1)
         
-        if towerdata and towerdata.uid then
-            pcall(function()
-                towers.SellTower.invoke(towerdata.uid)
-            end)
-            updatelog(`Sold Tower #{tower}`)
-            env.towerlist[tower] = nil
-        end
+        pcall(function()
+            towers.SellTower.invoke(realindex)
+        end)
+        updatelog(`Sold Tower {tower}`)
     end
 end
 
@@ -249,11 +233,10 @@ function api:PlayAgain()
         updatelog("Voted for restart")
     end
     
+    env.firsttower = env.totalplaced + 1
     env.lasttime = ostime()
     env.timer = 0
     env.waveinfo = 1
-    env.towerlist = {}
-    env.placementcounter = 0
 end
 
 return api
