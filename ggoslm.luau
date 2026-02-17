@@ -140,7 +140,7 @@ function api:Skip(time: number, wave: number)
     if waitTime(time, wave) then
         updatelog(`Skipping Wave {wave}`)
         pcall(function()
-            replicatedstorage:WaitForChild("ByteNetReliable"):FireServer(buffer.fromstring("\148\001"))
+            replicatedstorage:WaitForChild("ByteNetReliable"):FireServer(buffer.fromstring("\148\003"))
         end)
     end
 end
