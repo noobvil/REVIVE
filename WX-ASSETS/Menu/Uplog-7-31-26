@@ -43,7 +43,7 @@ local v8 = {
 local v9 = {
     {
         ["Type"] = "TextTemplate",
-        ["Content"] = "New maps added:"
+        ["Content"] = "New things added:"
     }
 }
 local v10 = {
@@ -63,7 +63,7 @@ local v11 = {
     {
         ["Type"] = "ImageTemplate",
         ["Content"] = "rbxassetid://113904096382031",
-        ["Text"] = "WER's son"
+        ["Text"] = "\226\128\162 <font color=\"rgb(0,0,0)\">WER's son</font>"
     }
 }
 v10.Content = v11
@@ -71,7 +71,7 @@ v9[2] = v10
 v8.Content = v9
 v2[3] = v8
 local v12 = {
-    ["Header"] = "Me name Frink, me dog."
+    ["Header"] = "谁有子追脚本。"
 }
 local v13 = {}
 local v14 = {
@@ -81,7 +81,7 @@ local v15 = {
     {
         ["Type"] = "ImageTemplate",
         ["Content"] = "rbxassetid://85025743124350",
-        ["Text"] = "His name is Frink."
+        ["Text"] = "炉管王。"
     }
 }
 v14.Content = v15
