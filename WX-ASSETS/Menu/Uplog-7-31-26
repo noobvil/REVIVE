@@ -32,7 +32,7 @@ local v6 = {
 local v7 = {
     {
         ["Type"] = "TextTemplate",
-        ["Content"] = "\226\128\162 <font color=\"rgb(238,23,255)\">Home</font>\n\226\128\162 <font color=\"rgb(50,225,50)\">Visual</font>\n\226\128\162 <font color=\"rgb(13,105,172)\">Item</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">User</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Misc</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Aim</font>\n\226\128\162 <font color=\"rgb(200,20,20)\">Rage</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Music</font>\n\t\t\t\t\t"
+        ["Content"] = "\226\128\162<font color=\"rgb(238,23,255)\">Home</font>\n\226\128\162 <font color=\"rgb(50,225,50)\">Visual</font>\n\226\128\162 <font color=\"rgb(13,105,172)\">Item</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">User</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Misc</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Aim</font>\n\226\128\162 <font color=\"rgb(200,20,20)\">Rage</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Music</font>\n\t\t\t\t\t"
     }
 }
 v6.Content = v7
@@ -82,7 +82,7 @@ local v14 = {
     {
         ["Type"] = "ImageTemplate",
         ["Content"] = "rbxassetid://85025743124350",
-        ["Text"] = "炉管王。"
+        ["Text"] = "炉管王。:"
     }
 }
 v13[1].Content = v14
