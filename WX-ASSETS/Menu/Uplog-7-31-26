@@ -32,7 +32,7 @@ local v6 = {
 local v7 = {
     {
         ["Type"] = "TextTemplate",
-        ["Content"] = "\226\128\162 <font color=\"rgb(238,23,255)\">Home</font>\n\226\128\162 <font color=\"rgb(50,225,50)\">Visual</font>\n\226\128\162 <font color=\"rgb(13,105,172)\">Item</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">User</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Misc</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Aim</font>\n\226\128\162 <font color=\"rgb(200,20,20)\">Rage</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Music</font>"
+        ["Content"] = "\226\128\162 <font color=\"rgb(238,23,255)\">Home</font>\n\226\128\162 <font color=\"rgb(50,225,50)\">Visual</font>\n\226\128\162 <font color=\"rgb(13,105,172)\">Item</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">User</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Misc</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Aim</font>\n\226\128\162 <font color=\"rgb(200,20,20)\">Rage</font>\n\226\128\162 <font color=\"rgb(255,255,255)\">Music</font>\n\t\t\t\t\t"
     }
 }
 v6.Content = v7
@@ -44,50 +44,49 @@ local v9 = {
     {
         ["Type"] = "TextTemplate",
         ["Content"] = "New things added:"
-    },
-    {
-        ["Type"] = "ItemsTemplate",
-        ["Content"] = {
-            {
-                ["Type"] = "ImageTemplate",
-                ["Content"] = "rbxassetid://112394028285436",
-                ["Text"] = "New UI"
-            },
-            {
-                ["Type"] = "ImageTemplate",
-                ["Content"] = "rbxassetid://138158779378021",
-                ["Text"] = "New Contributor"
-            },
-            {
-                ["Type"] = "ImageTemplate",
-                ["Content"] = "rbxassetid://113904096382031",
-                ["Text"] = "WER's son"
-            }
-        }
     }
 }
-v8.Content = v9
-v2[3] = v8
 local v10 = {
-    ["Header"] = "谁有子追脚本。"
+    ["Type"] = "ItemsTemplate"
 }
 local v11 = {
     {
-        ["Type"] = "TextTemplate",
-        ["Content"] = "炉管王。"
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://112394028285436",
+        ["Text"] = "New UI"
     },
     {
-        ["Type"] = "ItemsTemplate",
-        ["Content"] = {
-            {
-                ["Type"] = "ImageTemplate",
-                ["Content"] = "rbxassetid://85025743124350",
-                ["Text"] = "炉管王。"
-            }
-        }
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://138158779378021",
+        ["Text"] = "New Contributor"
+    },
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://113904096382031",
+        ["Text"] = "WER's son"
     }
 }
 v10.Content = v11
-v2[4] = v10
+v9[2] = v10
+v8.Content = v9
+v2[3] = v8
+local v12 = {
+    ["Header"] = "谁有子追脚本。"
+}
+local v13 = {
+    {
+        ["Type"] = "ItemsTemplate"
+    }
+}
+local v14 = {
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://85025743124350",
+        ["Text"] = "炉管王。"
+    }
+}
+v13[1].Content = v14
+v12.Content = v13
+v2[4] = v12
 v1.Notes = v2
 return v1
