@@ -32,7 +32,7 @@ local v6 = {
 local v7 = {
     {
         ["Type"] = "TextTemplate",
-        ["Content"] = ""\226\128\162 Fix Rage bot didn't working\n\226\128\162 Fix Melee aura\n\226\128\162 Make AutoPick Scrap faster\n\t\t\t\t\t""
+        ["Content"] = "\226\128\162 Fix Rage bot didn't working\n\226\128\162 Fix Melee aura\n\226\128\162 Make AutoPick Scrap faster\n\t\t\t\t\t"
     }
 }
 v6.Content = v7
