@@ -1,0 +1,169 @@
+local v1 = {
+    ["PageSize"] = UDim2.fromScale(1, 2),
+    ["TitleMeta"] = {
+        ["Image"] = {
+            ["Small"] = "rbxassetid://89585291777693",
+            ["Large"] = "rbxassetid://77504346106921"
+        },
+        ["Text"] = {
+            ["Date"] = "7-31-26",
+            ["Title"] = "New Game:DesertStorm"
+        }
+    }
+}
+local v2 = {}
+local v3 = {
+    ["Header"] = "Overview"
+}
+local v4 = {}
+local v5 = {
+    ["Type"] = "TextTemplate",
+    ["Content"] = "This update is one of our largest if not our largest one yet! We\'ve added in a lot of new updates, features, and content.",
+    ["Style"] = {
+        ["TextXAlignment"] = Enum.TextXAlignment.Center
+    }
+}
+v4[1] = v5
+v3.Content = v4
+v2[1] = v3
+local v6 = {
+    ["Header"] = "Main+Visual Features"
+}
+local v7 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 <font color=\"rgb(238,23,255)\">Main</font> <i>(New UI,Icon,Setting,etc)</i>\n\226\128\162 <font color=\"rgb(200,20,20)\">ESP</font> Player AI Item\n\226\128\162 Player Esp\n\226\128\162 AI Esp\n\226\128\162 Highlight+Anim\n\226\128\162 2DBox+Anim\n\226\128\162 3D\n\226\128\162 Spectre sky visuals now appear during the LMS\n\226\128\162 New <font color=\"rgb(255,255,255)\">Weapon Visual</font> <i>(ForceField)</i>\n\226\128\162 New <font color=\"rgb(255,255,255)\">Character Visual</font> <i>(ForceField)</i>\n\t\t\t\t\t"
+    }
+}
+v6.Content = v7
+v2[2] = v6
+local v8 = {
+    ["Header"] = "Skins"
+}
+local v9 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "<font color=\"rgb(238,23,255)\">Azure</font>\n\226\128\162 Added Azure Milestones\n\226\128\162 Added Jester Azure\n\226\128\162 Added FunnyBrushez Azure\n\226\128\162 Added Wonderland Azure\n\226\128\162 Added Lunar Wizard Azure\n\226\128\162 Added Broken Heart Azure\n\226\128\162 Added Sugar Mage Azure\n\226\128\162 Added Metamorphosis Azure\n\226\128\162 Added Apophis Azure\n\226\128\162 Added Void Azure\n\226\128\162 Added Cowboy Azure\n\226\128\162 Added Timekeeper Azure\n\226\128\162 Added Traffic Azure\n\226\128\162 Added Nightfall Azure\n\226\128\162 Added Sorrow Knight Azure\n\226\128\162 Added Nevermoor Azure\n\226\128\162 Added Bride Azure\n\226\128\162 Added First Born Azure\n\226\128\162 Added Deceiver Azure\n\n<font color=\"rgb(200,20,20)\">c00lkidd</font>\n\226\128\162 Updated c00lkidd Milestones\n\226\128\162 Updated C00l3r c00lkidd\n\226\128\162 Updated b4ll3rkidd c00lkidd\n\226\128\162 Updated p00lkidd c00lkidd\n\226\128\162 Updated Dapper/THE K1DD c00lkidd\n\226\128\162 Updated Whimsical/wh1ms1c4l c00lkidd\n\226\128\162 Updated Pr3typriincess\n\226\128\162 Updated Cultist c00lkidd\n\226\128\162 Updated sch00lkidd c00lkidd\n\226\128\162 Updated Color And Electricity/FF9CAE c00lkidd\n\226\128\162 Updated bluudud\n\226\128\162 Updated Savior/c00lskeleton95 c00lkidd\n\226\128\162 Updated Cupcakes/P4rtyPwny c00lkidd\n\n<font color=\"rgb(248,217,109)\">John Doe</font>\n\226\128\162 Added John Flow\n\226\128\162 Added John Dog\n\226\128\162 Added <font color=\"rgb(13,105,172)\">Treachstone</font> John Doe\n\n<font color=\"rgb(200,0,0)\">Guest 666</font>\n\226\128\162 Added Epik Duck Guest 666\n\226\128\162 Added The Dweller Guest 666\n\226\128\162 Added Memories Guest 666\n\n<font color=\"rgb(200,150,20)\">Slasher</font>\n\226\128\162 Updated Uncle Sam/Builder Sam Slasher\n\n<font color=\"rgb(56,35,158)\">Noli</font>\n\226\128\162 Added Trolli Noli\n\226\128\162 Added Exilium Noli\n\226\128\162 Added Starry Night Noli\n\226\128\162 Added Vira Noli\n\226\128\162 Updated Milestone 4 Noli VFX\n\226\128\162 Added Artful Noli\'s Outro\n\226\128\162 Updated Devesto Noli\n\n<font color=\"rgb(101,28,50)\">Nosferatu</font>\n\226\128\162 Added Heritage Nosferatu\n\226\128\162 Added Vecna Nosferatu\n\226\128\162 Added Meowl Nosferatu\n\n\n<font color=\"rgb(255,255,255)\">Chance</font>\n\226\128\162 Made Loveshot Chance obtainable through the shop! ($1250)\n\n<font color=\"rgb(255,255,255)\">Elliot</font>\n\226\128\162 Added Fish Dealer Elliot\n\226\128\162 Added Zombie Cat Elliot (Achievement)\n\n<font color=\"rgb(255,255,255)\">Guest 1337</font>\n\226\128\162 Added Toon Guest\n\n<font color=\"rgb(255,255,255)\">Jane Doe</font>\n\226\128\162 Added Doe Jane Doe\n\n<font color=\"rgb(255,255,255)\">007n7</font>\n\226\128\162 Added 224o4 007n7\n\226\128\162 Updated 007n7 Milestones\n\226\128\162 Removed Spy 007n7\n\n<font color=\"rgb(255,255,255)\">TwoTime</font>\n\226\128\162 Added Assassin TwoTime (Spy 007n7 Replacement)\n\226\128\162 Added Plush TwoTime\n\226\128\162 Added Invicta TwoTime\n\226\128\162 Updated the last remaining TwoTime Skins\n\n<font color=\"rgb(255,255,255)\">Veeronica</font>\n\226\128\162 Added Vintage Veeronica\n\226\128\162 Added Moe Veeronica\n\226\128\162 Added Overheat Veeronica\n\226\128\162 Added Radical Veeronica\n\t\t\t\t\t"
+    }
+}
+v8.Content = v9
+v2[3] = v8
+local v10 = {
+    ["Header"] = "Animations"
+}
+local v11 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 A majority of lobby NPC\'s now have idles \n\226\128\162 Ms3 and Ms4 c00lkidd\'s 007n7 kill has been changed to match milestone lore\n\226\128\162 P4rtyPwny c00lkidd has completely custom animations\n\226\128\162 Savior c00lkidd has small custom animations\n\226\128\162 Heritage Nosferatu has a custom kill animation\n\226\128\162 Firstborn Azure has a custom idle\n\226\128\162 Univeral Survivor Idles were very slightly tweaked\n\226\128\162 Base stun animation starts have animation priority\n\t\t\t\t\t"
+    }
+}
+v10.Content = v11
+v2[4] = v10
+local v12 = {
+    ["Header"] = "Emotes"
+}
+local v13 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 A majority of survivors now have a <font color=\"rgb(255,255,255)\">Built-in Emote</font>. You get it as a normal emote as a milestone 100 award.\n> Jane Doe, Shedletsky, Builderman, Dusekkar, Taph, Noob, Chance, and 007n7\n\226\128\162 Added Jamal Dance Emote\n\226\128\162 Added Pick Up Emote\n\226\128\162 Added Po-ppi-po Emote\n\226\128\162 Added Split Emote\n\226\128\162 Updated Bizarre Emote\n\226\128\162 Updated Lonely Emote\n\226\128\162 Updated Macarena Emote\n\226\128\162 Added Thang Emote (Emote Pack #2)\n\226\128\162 Added No Sturdy Emote (Emote Pack #2)\n\226\128\162 Added Advertisement Emote (Emote Pack #2)\n\226\128\162 Added Remote Helper Bot Emote (Emote Pack #2)\n\226\128\162 Added So Jolly Emote (Emote Pack #2)\n\t\t\t\t\t"
+    }
+}
+v12.Content = v13
+v2[5] = v12
+local v14 = {
+    ["Header"] = "Music"
+}
+local v15 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 Azure Chase Theme\n\226\128\162 Azure LMS\n\226\128\162 Classic Azure Chase Theme\n\226\128\162 Milestone Azure Chase Theme\n\226\128\162 Deceiver Azure Chase Theme\n\226\128\162 Original c00lkidd Chase Theme\n\226\128\162 Cultist c00lkidd Chase Theme\n\226\128\162 The K1dd c00lkidd Chase Theme\n\226\128\162 Gourd c00lkidd Chase Theme\n\226\128\162 Bluudud LMS Theme\n\226\128\162 Schoolkidd Chase Theme\n\226\128\162 Milestone c00lkidd Chase Theme\n\226\128\162 Classic 1x1x1x1 Chase Theme\n\226\128\162 Classic Nosferatu Chase Theme \n\226\128\162 Mystic Slasher Chase Theme\n\226\128\162 New Vanity Slasher Chase Theme\n\226\128\162 New Vanity Slasher LMS\n\226\128\162 Memories Guest 666 Chase Theme\n\226\128\162 Deathclaw Guest 666 Chase Theme\n\226\128\162 Treachstone John Doe Chase Theme\n\226\128\162 Werewolf Nosferatu Chase Theme\n\226\128\162 Script Builder John Doe Chase Theme\n\226\128\162 Template Guest 666 Chase Theme\n\226\128\162 Godmother Guest 666 Chase Theme\n\226\128\162 Exilium Noli Chase Theme\n\226\128\162 Trolli Noli Chase Theme\n\226\128\162 Classic Skin LMS\n\226\128\162 New Lobby Theme\n\t\t\t\t\t"
+    }
+}
+v14.Content = v15
+v2[6] = v14
+local v16 = {
+    ["Header"] = "Maps"
+}
+local v17 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "Did various changes and fixes to all of the maps to create more fair and balanced gameplay.\nAdded in <font color=\"rgb(255,255,255)\">three</font> new maps for the update:\n\t\t\t\t\t\t\n\226\128\162 Horror Hotel Overhaul\n\226\128\162 Roblox HQ\n\226\128\162 Reborn Family Abode\n\t\t\t\t\t"
+    }
+}
+local v18 = {
+    ["Type"] = "ItemsTemplate"
+}
+local v19 = {
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://112394028285436",
+        ["Text"] = "Horror Hotel Overhaul"
+    },
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://138158779378021",
+        ["Text"] = "Roblox HQ"
+    },
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://113904096382031",
+        ["Text"] = "Reborn Family Abode"
+    }
+}
+v18.Content = v19
+v17[2] = v18
+v16.Content = v17
+v2[7] = v16
+local v20 = {
+    ["Header"] = "Renders"
+}
+local v21 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 Updated Base Killer Renders\n\226\128\162 Updated Script Builder John Doe Render\n\226\128\162 Updated Original c00lkidd Render\n\226\128\162 Updated Cosplay Noob Render\n\226\128\162 Updated Homerunner Slasher Render\n\226\128\162 Updated Jock TwoTime Render\n\226\128\162 Updated Legacy Paperpal Elliot Render\n\226\128\162 Updated Cosplay Chance Render\n\226\128\162 Updated Matt Guest 1337 Render\n\226\128\162 Updated Punk TwoTime Render\n\226\128\162 Updated Kitty Cat TwoTime Render\n\226\128\162 Updated SoyG Guest Render\n\t\t\t\t\t"
+    }
+}
+v20.Content = v21
+v2[8] = v20
+local v22 = {
+    ["Header"] = "Misc"
+}
+local v23 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "\226\128\162 Fixed a rare Taph bug where Tripwire/Subspace status durations could get longer instead of shorter if Taph was gone before they triggered\n\226\128\162 Fixed Rush Hour\'s red range icon tint fighting with the cooldown visuals, so it now darkens properly while on cooldown\n\226\128\162 MS4 c00lkidd has special chase effects (Toggle-able)\n\226\128\162 Random Idle Voiceline times have been doubled (10-25 > 20-50s)\n\226\128\162 Survivors now gain/apply non-impactful status effects\n\226\128\162 Killer HP\226\128\153s have been changed to match lore powerscaling\n\226\128\162 Slasher gains Resistance 4 after being stunned\n\226\128\162 Added in new TwoTime faces\n\226\128\162 Added in new Fool Chance faces\n\226\128\162 Added in new loading screens\n\t\t\t\t\t"
+    }
+}
+v22.Content = v23
+v2[9] = v22
+local v24 = {
+    ["Header"] = "Balancing"
+}
+local v25 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "<font color=\"rgb(255,255,255)\">GLOBAL</font>\n\226\128\162 Sentinel Stacking no longer reduces stun durations.\n\226\128\162 Sentinel Stacking now significantly increases the duration of stun immunity after a stun ends for each Sentinel alive in the match.\n  \226\128\162 Each additional Sentinel alive adds +3s of stun immunity.\n\226\128\162 The old Weakness effect has been renamed to Vulnerable.\n\226\128\162 Weakness is now used for a new status effect that reduces damage output by 10% per level.\n\226\128\162 Added a new status effect: Exhausted.\n  \226\128\162 Exhausted reduces stamina regeneration and increases stamina drain by 10% per level.\n  \226\128\162 The stamina bar turns red while Exhausted is active.\n\226\128\162 Stun immunity\226\128\153s visual indicator has been updated.\n\226\128\162 Invisibility now hides all active particle effects.\n\226\128\162 Terror Radiuses have been globally increased by 1.25x.\n\n<font color=\"rgb(255,255,255)\">Shedletsky</font>\n<font color=\"rgb(255,255,255)\">Slash</font>\n\226\128\162 Windup decreased from 0.575s to 0.525s.\n\226\128\162 Resistance on cast duration reduced from 0.575s to 0.525s.\n\226\128\162 Self-slow duration reduced from 1.575s to 1.4s.\n\n<font color=\"rgb(255,255,255)\">Fried Chicken</font>\n\226\128\162 Healing over time reduced from 35 to 25.\n  \226\128\162 Now heals 30 total.\n\226\128\162 Healing is now canceled when taking 5 or more damage.\n  \226\128\162 ( Previously canceled when taking 10 or more damage. )\n\n<font color=\"rgb(255,255,255)\">Taph</font>\n<font color=\"rgb(255,255,255)\">Subscape Tripmine</font>\n\226\128\162 Killer detection detonation no longer triggers through walls.\n  \226\128\162 Tripmine can still hit through walls, but it will no longer detonate if it detects a Killer through a wall.\n\226\128\162 Detonation time increased from 0.4s to 0.5s.\n\226\128\162 Killer detection and explosion radius increased from 16 to 19 studs.\n\226\128\162 Stacking status reduction penalty increased from 0.85s to 2s.\n\226\128\162 Subspaced duration increased from 5s to 6s.\n\226\128\162 Now also applies Weakness V for 6s.\n\226\128\162 Helpless duration reduced from 5s to 3s.\n\n<font color=\"rgb(255,255,255)\">Tripwire</font>\n\226\128\162 Now has a 1.5s arming time after being placed.\n\226\128\162 Stacking status reduction penalty increased from 0.85s to 1.5s.\n\n<font color=\"rgb(200,150,20)\">Slasher</font>\n<font color=\"rgb(255,255,255)\">Behead</font>\n\226\128\162 Damage increased from 20 to 25.\n\n<font color=\"rgb(255,255,255)\">Gashing Wound</font>\n\226\128\162 Follow-up hits now have their hitbox size reverted to match the initial hit.\n\n<font color=\"rgb(50,225,50)\">1x1x1x1</font>\n<font color=\"rgb(255,255,255)\">Entanglement</font>\n\226\128\162 Pull strength reduced by 50%.\n\226\128\162 Glitched pull strength bonus increased from 50% to 75%.\n\226\128\162 Glitched and Helpless duration reduced from 6s to 5s.\n\226\128\162 Stun duration now scales based on distance traveled.\n  \226\128\162 Starts at 0.85s.\n  \226\128\162 Scales up to 1.25s over 75 studs.\n\n<font color=\"rgb(255,255,255)\">Mass Infection</font>\n\226\128\162 Speed boost removed.\n\226\128\162 Projectile speed increased by 4%.\n\n<font color=\"rgb(255,255,255)\">Unstable Eye</font>\n\226\128\162 Speed boost duration increased from 1.25s to 1.5s.\n\n<font color=\"rgb(255,255,255)\">Rejuvinate the Rotten</font>\n\226\128\162 Minion lock-on range decreased from 24 studs to 20 studs.\n\226\128\162 Minion drop aggro range decreased from 40 studs to 30 studs.\n\n<font color=\"rgb(255,255,255)\">Guest 1337</font>\n<font color=\"rgb(255,255,255)\">General</font>\n\226\128\162 Knockback stacking nerf increased from 8% to 10%.\n\n<font color=\"rgb(255,255,255)\">Block</font>\n\226\128\162 Increased ability lockout after a failed block.\n  \226\128\162 Guest 1337 can no longer use abilities until 2s after failing a block.\n\226\128\162 Fixed on-hit Killer slowness being much stronger than intended.\n\n<font color=\"rgb(255,255,255)\">Charge</font>\n\226\128\162 Knockback now ramps up based on how long Charge is held.\n  \226\128\162 Starts at 6 knockback.\n  \226\128\162 Scales up to 11 knockback after 0.5s.\n  \226\128\162 Previously had a flat 9 knockback.\n\226\128\162 On-hit resistance duration decreased from 1.25s to 0.75s.\n\n<font color=\"rgb(255,255,255)\">Punch</font>\n\226\128\162 Cooldown decreased from 60s to 55s.\n\226\128\162 Status effect durations are now reduced by 0.35s for every additional Guest 1337 alive.\n\n<font color=\"rgb(255,255,255)\">Noob</font>\n<font color=\"rgb(255,255,255)\">Slateskin Potion</font>\n\226\128\162 Slateskin now grants +1 hitbox priority while active.\n\n<font color=\"rgb(255,255,255)\">007n7</font>\n<font color=\"rgb(255,255,255)\">Inject</font>\n\226\128\162 Cursor mode now decreases Clone\226\128\153s duration by 50% when used.\n\n<font color=\"rgb(101,28,50)\">Nosferatu</font>\n<font color=\"rgb(255,255,255)\">Hunter\'s Feast</font>\n\226\128\162 Windup reverted to 0.23s.\n\226\128\162 Endlag reduced from 0.5s to 0.4s.\n\226\128\162 Redirect projectile speed bonus increased from 3x to 4x.\n\n<font color=\"rgb(255,255,255)\">Cataclysm</font>\n\226\128\162 Slowness duration increased from 6.0s to 7.5s\n\226\128\162 Reveal duration increased from 6.0s to 7.5s\n\226\128\162 Bleeding duration increased from 5.0s to 7.5s\n\226\128\162 Bleeding level decreased from 3 -> 2\n\n<font color=\"rgb(200,20,20)\">c00lkidd</font>\n\226\128\162 Mobile aiming has been reverted back to cursor-based aiming\n\n<font color=\"rgb(200,0,0)\">Guest 666</font>\n<font color=\"rgb(255,255,255)\">Base Stats</font>\n\226\128\162 Blood Orbs now travel 100% faster toward Guest 666.\n\226\128\162 Blood Orb lifetime increased from 60s to 90s.\n\226\128\162 Blood Orbs no longer reduce Slash\226\128\153s cooldown when collected.\n\n<font color=\"rgb(255,255,255)\">Eviscerate</font>\n\226\128\162 Slowness duration increased from 2s to 2.5s.\n\226\128\162 Slowness now always applies, regardless of whether Eviscerate hits or misses.\n  \226\128\162 Hitting Eviscerate now cuts the Slowness duration by 50%.\n\n<font color=\"rgb(255,255,255)\">Demonic Pursuit</font>\n\226\128\162 Minimum charge duration increased from 0.5s to 0.6s.\n\n<font color=\"rgb(255,255,255)\">Infernal Cry</font>\n\226\128\162 Blood Hunt Speed duration reduced from 3s to 2s.\n\226\128\162 Blood Hunt Strength duration reduced from 8s to 6s.\n\226\128\162 Highlight duration reduced from 12s to 11s.\n\n<font color=\"rgb(255,255,255)\">Blood Rush</font>\n\226\128\162 Maximum highlight duration decreased from 20s to 15s.\n\226\128\162 Reduced the maximum range for the highlight from 200 studs to 150 studs.\n\n<font color=\"rgb(255,255,255)\">Blood Hunt</font>\n\226\128\162 No longer self-inflicts Slowness and Helpless when stunned.\n\226\128\162 Base speed boost increased from 4% to 6%.\n\n<font color=\"rgb(255,255,255)\">Builderman</font>\n<font color=\"rgb(255,255,255)\">Sentry Construction</font>\n\226\128\162 Cooldown decreased from 45s to 35s.\n\226\128\162 Cooldown now only begins once the Sentry is destroyed by a Killer.\n  \226\128\162 Ability can now be used at any time, but becomes locked if the Sentry has shot at something within the last 10s.\n\226\128\162 Sentry Slowness level is now reduced from II to I if there is more than one Builderman alive.\n\n<font color=\"rgb(255,255,255)\">Dispenser Construction</font>\n\226\128\162 Cooldown decreased from 45s to 30s.\n\226\128\162 Cooldown now only begins once the Dispenser is destroyed by a Killer.\n  \226\128\162 Ability can now be used at any time, but becomes locked if the Dispenser has healed a player within the last 10s.\n\n<font color=\"rgb(255,255,255)\">Carry</font>\nBuilderman now has a new ability: Carry.\n\226\128\162 Carry allows Builderman to pick up his buildings and move them around.\n\226\128\162 Builderman moves slower while carrying a building.\n  \226\128\162 The carried building becomes inactive while being moved.\n\226\128\162 Placing a building down with Carry makes it build up much faster than normal.\n\n<font color=\"rgb(255,255,255)\">Jane Doe</font>\n<font color=\"rgb(255,255,255)\">Shatterpoint</font>\n\226\128\162 Shatterpoint HP gain stacking nerf increased from 8% to 10%.\n\226\128\162 Starting Shatterpoint HP gain is now reduced by 10% for every additional Jane Doe alive in the match.\n\n<font color=\"rgb(255,255,255)\">Crystal Pitch</font>\n\226\128\162 Failing to apply Resonance on a Killer will now also prevent Jane Doe from gaining any Shatterpoint HP from that hit.\n\226\128\162 Resonance will no longer fail to apply on stun-immune Killers.\n  \226\128\162 Fully stunned Killers are still immune to new Resonance applications.\n\n<font color=\"rgb(255,255,255)\">Hatchet</font>\n\226\128\162 Stun stacking nerf increased from 0.125 per level to 0.15 per level.\n\n<font color=\"rgb(255,255,255)\">Elliot</font>\n<font color=\"rgb(255,255,255)\">Pizza Throw</font>\n\226\128\162 Cooldown reduced from 45s to 30s.\n\226\128\162 Base healing reduced from 5 instant + 20 over time to 5 instant + 15 over time.\n\226\128\162 Order Up passive scaling reduced from +4 healing per generator to +2 healing per generator.\n\226\128\162 Time to heal reduced from 5s to 4s.\n\226\128\162 Healing is now canceled when taking 5 or more damage.\n  \226\128\162 Previously canceled when taking 10 or more damage.\n\226\128\162 Fixed stacking nerfs not working properly.\n\226\128\162 Pizza now emits green plus (+) particles to make it clearer that it heals.\n\226\128\162 Pizza now has a timer above it to indicate its remaining lifetime.\n\226\128\162 007n7 clones can no longer eat pizza.\n\n<font color=\"rgb(255,255,255)\">Rush Hour</font>\n\226\128\162 Cooldown reduced from 40s to 30s.\n\226\128\162 Speed duration increased from 3s to 4s.\n\226\128\162 Speed level now matches the amount of charges stored.\n\226\128\162 Max charges increased from 1 to 3.\n\226\128\162 Using Rush Hour consumes all charges.\n\226\128\162 Now inflicts Exhausted II for 4s after Rush Hour ends.\n  \226\128\162 Exhausted is only applied if the Killer is within 85 studs of Elliot and has a more than Speed 1 when Rush Hour is used.\n\226\128\162 Rush Hour no longer consumes charges if used more than 85 studs away from the Killer.\n  \226\128\162 The ability icon will change colors to indicate this.\n\n<font color=\"rgb(255,255,255)\">TwoTime</font>\n<font color=\"rgb(255,255,255)\">Sacrificial Dagger</font>\n\226\128\162 Windup reduced from 0.3s to 0.25s.\n\226\128\162 Stun duration reduced from 3.5s to 2s.\n\226\128\162 Oblation gain on frontstab reduced from 37% to 20%.\n\226\128\162 Oblation gain on backstab reduced from 57% to 40%.\n\226\128\162 Landing Sacrificial Dagger no longer grants direct healing.\n\226\128\162 Regular Stab no longer has the small forward lunge.\n  \226\128\162 Hitbox and hitbox offset adjusted to compensate.\n\226\128\162 Backstab detection no longer uses the extrapolated position of TwoTime and the Killer.\n\n<font color=\"rgb(255,255,255)\">Crouch</font>\n\226\128\162 Crouchstab now increases Backstab\226\128\153s stun duration from 2s to 3.5s.\n\226\128\162 Crouchstabs now give 25% more Oblation.\n\226\128\162 TwoTime gradually gains speed while running toward the Killer while crouched.\n  \226\128\162 Speed boost scales up to 35% over 5s.\n  \226\128\162 This boost is instantly lost if TwoTime takes damage, exits crouch, or stops running toward the Killer.\n\226\128\162 Dagger visual is now properly affected by the Invisibility status effect.\n\226\128\162 Crouch startup SFX range reduced.\n\226\128\162 Crouchstab windup SFX made quieter.\n\226\128\162 Cooldown reduced from 45s to 35s.\n\226\128\162 Crouch running speed increased from 20 to 23.\n\n<font color=\"rgb(255,255,255)\">Pray</font>\nAdded a new ability: Pray.\n\226\128\162 Can be used near TwoTime\226\128\153s Ritual to rapidly exchange Oblation for Health.\n  \226\128\162 Converts at a 2:1 Oblation% to Health ratio.\n  \226\128\162 Plays a praying animation and locks movement while active.\n  \226\128\162 The button must be held down to continue exchanging.\n  \226\128\162 The animation and exchange end when the button is released or when TwoTime reaches maximum health.\n\226\128\162 Attempting to use Pray while away from your Ritual will highlight your Ritual for 4s and tell you to go find it.\n\226\128\162 Pray has no cooldown.\n\n<font color=\"rgb(255,255,255)\">Second Life Form</font>\n* Maximum health increased from 40 to 50.\n* Timer is now split into 15s / 25s.\n  * Previously 20s / 20s.\n\t\t\t\t\t"
+    }
+}
+v24.Content = v25
+v2[10] = v24
+local v26 = {
+    ["Header"] = "Me name Frink, me dog."
+}
+local v27 = {}
+local v28 = {
+    ["Type"] = "ItemsTemplate"
+}
+local v29 = {
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://85025743124350",
+        ["Text"] = "His name is Frink."
+    }
+}
+v28.Content = v29
+v27[2] = v28
+v26.Content = v27
+v2[11] = v26
+v1.Notes = v2
+return v1
