@@ -1,0 +1,92 @@
+local v1 = {
+    ["PageSize"] = UDim2.fromScale(1, 2),
+    ["TitleMeta"] = {
+        ["Image"] = {
+            ["Small"] = "rbxassetid://79585291777693",
+            ["Large"] = "rbxassetid://63504346106921"
+        },
+        ["Text"] = {
+            ["Date"] = "8-01-26",
+            ["Title"] = "Bug Fix"
+        }
+    }
+}
+local v2 = {}
+local v3 = {
+    ["Header"] = "Overview"
+}
+local v4 = {}
+local v5 = {
+    ["Type"] = "TextTemplate",
+    ["Content"] = "Just a little update",
+    ["Style"] = {
+        ["TextXAlignment"] = Enum.TextXAlignment.Center
+    }
+}
+v4[1] = v5
+v3.Content = v4
+v2[1] = v3
+local v6 = {
+    ["Header"] = "Change"
+}
+local v7 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = ""\226\128\162 Fix Rage bot didn't working\n\226\128\162 Fix Melee aura\n\226\128\162 Make AutoPick Scrap faster\n\t\t\t\t\t""
+    }
+}
+v6.Content = v7
+v2[2] = v6
+local v8 = {
+    ["Header"] = "Updates"
+}
+local v9 = {
+    {
+        ["Type"] = "TextTemplate",
+        ["Content"] = "New things added:"
+    }
+}
+local v10 = {
+    ["Type"] = "ItemsTemplate"
+}
+local v11 = {
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://112394028285436",
+        ["Text"] = "New UI"
+    },
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://138158779378021",
+        ["Text"] = "New Contributor"
+    },
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://113904096382031",
+        ["Text"] = "WER's son"
+    }
+}
+v10.Content = v11
+v9[2] = v10
+v8.Content = v9
+v2[3] = v8
+local v12 = {
+    ["Header"] = "谁有子追脚本。"
+}
+local v13 = {
+    {
+        ["Type"] = "ItemsTemplate"
+    }
+}
+local v14 = {
+    {
+        ["Type"] = "ImageTemplate",
+        ["Content"] = "rbxassetid://85025743124350",
+        ["Text"] = "炉管王。:"
+    }
+}
+v13[1].Content = v14
+v12.Content = v13
+v2[4] = v12
+v1.Notes = v2
+return v1
