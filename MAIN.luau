@@ -1,11 +1,9 @@
 local HttpGet = game.HttpGet
-local GameId: number = game.GameId
+local GameId = game.GameId
 
-local Games: {[number]: string} = loadstring(
-  HttpGet(game, "https://github.com/noobvil/REVIVE/raw/refs/heads/main/GameList.luau")
-)() :: any
+local Games = loadstring(HttpGet(game, "https://github.com/noobvil/REVIVE/raw/refs/heads/main/GameList.luau"))()
 
-local URL: string? = Games[GameId]
+local URL = Games[GameId]
 if not URL then return end
 
 loadstring(HttpGet(game, URL))()
