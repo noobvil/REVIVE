@@ -5,19 +5,19 @@ v1.Stats = {
         ["Index"] = 1
     },
     ["WX-KEY DAY"] = {
-        ["Chance"] = 4,
+        ["Chance"] = 1000,
         ["Index"] = 2
     },
     ["WX-KEY WEEK"] = {
-        ["Chance"] = 10,
+        ["Chance"] = 3333,
         ["Index"] = 3
     },
     ["WX-KEY MONTH"] = {
-        ["Chance"] = 35,
+        ["Chance"] = 14286,
         ["Index"] = 4
     },
     ["WX-KEY LIFETIME"] = {
-        ["Chance"] = 125,
+        ["Chance"] = 200000,
         ["Index"] = 5
     }
 }
