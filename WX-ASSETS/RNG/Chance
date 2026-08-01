@@ -1,0 +1,24 @@
+local v1 = {}
+v1.Stats = {
+    ["None"] = {
+        ["Chance"] = 1,
+        ["Index"] = 1
+    },
+    ["WX-KEY DAY"] = {
+        ["Chance"] = 4,
+        ["Index"] = 2
+    },
+    ["WX-KEY WEEK"] = {
+        ["Chance"] = 10,
+        ["Index"] = 3
+    },
+    ["WX-KEY MONTH"] = {
+        ["Chance"] = 35,
+        ["Index"] = 4
+    },
+    ["WX-KEY LIFETIME"] = {
+        ["Chance"] = 125,
+        ["Index"] = 5
+    }
+}
+return v1
