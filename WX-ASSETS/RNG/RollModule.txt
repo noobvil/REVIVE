@@ -1,0 +1,270 @@
+local v_u_1 = {}
+local v2 = game:GetService("Players")
+local v_u_3 = game:GetService("ReplicatedStorage")
+game:GetService("MessagingService")
+local v_u_4 = game:GetService("TweenService")
+local v5 = game:GetService("SoundService")
+local v_u_6 = require(v_u_3.Utils.Rarities)
+local v_u_7 = require(v_u_3.Utils.Enrichments)
+local v_u_8 = require(v_u_3.Utils.Formulas)
+local v_u_9 = require(v_u_3.Utils.UI.Format)
+local v_u_10 = require(v_u_3.Utils.UI.UI)
+local v_u_11 = require(v_u_3.Utils.LocalUtils.ControllerBinding)
+local v_u_12 = require(v_u_3.Utils.LocalUtils.LastRolls)
+local v_u_13 = require(script.Cutscenes)
+local v_u_14 = require(script.RollSound)
+local v_u_15 = require(script.Messages)
+local v_u_16 = Random.new()
+local v_u_17 = v2.LocalPlayer
+v_u_17:WaitForChild("Leaderstats")
+local v_u_18 = v_u_17:WaitForChild("Info")
+local v_u_19 = v_u_17:WaitForChild("Hiddenstats")
+local v20 = v_u_17:WaitForChild("Gamepasses")
+local v_u_21 = v_u_17:WaitForChild("Settings")
+v_u_17:WaitForChild("Index")
+v20:GetAttribute("VIP")
+local v_u_22 = v5.Sounds:WaitForChild("UI_Click")
+v5.Sounds:WaitForChild("UI_Hover")
+local v_u_23 = v_u_17.PlayerGui:WaitForChild("BottomBar"):WaitForChild("Holder"):WaitForChild("Roll")
+local v_u_24 = v_u_17.PlayerGui:WaitForChild("RollUI")
+local v_u_25 = v_u_24:WaitForChild("Main")
+local v_u_26 = v_u_24:WaitForChild("Buttons")
+local v_u_27 = v_u_25:WaitForChild("Bar"):WaitForChild("Holder")
+local v_u_28 = v_u_25.Lines
+local v_u_29 = true
+local function v_u_31(p30) -- name: ToggleRoll
+	-- upvalues: (copy) v_u_24, (copy) v_u_26, (copy) v_u_25, (copy) v_u_4, (copy) v_u_10
+	if p30 then
+		v_u_24.DisplayOrder = -5
+		v_u_26.Visible = false
+		v_u_24.Gradient.Visible = false
+		v_u_25.UIScale.Scale = 0.6
+		v_u_25.AnchorPoint = Vector2.new(0.5, 0)
+		v_u_25.Position = UDim2.new(0.5, 0, 0, 90)
+		v_u_4:Create(v_u_25, TweenInfo.new(0.25, Enum.EasingStyle.Exponential), {
+			["Position"] = UDim2.new(0.5, 0, 0, 60)
+		}):Play()
+	else
+		v_u_24.DisplayOrder = 1
+		v_u_26.Visible = true
+		v_u_10.ToggleMainUI(false)
+		v_u_24.Buttons.Position = UDim2.new(0.5, 0, 1, 250)
+		v_u_4:Create(v_u_24.Buttons, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {
+			["Position"] = UDim2.new(0.5, 0, 1, -10)
+		}):Play()
+		v_u_24.Gradient.Visible = true
+		v_u_25.UIScale.Scale = 1
+		v_u_25.AnchorPoint = Vector2.new(0.5, 0.5)
+		v_u_25.Position = UDim2.new(0.5, 0, 0.5, 60)
+		v_u_4:Create(v_u_25, TweenInfo.new(0.25, Enum.EasingStyle.Exponential), {
+			["Position"] = UDim2.new(0.5, 0, 0.5, 0)
+		}):Play()
+	end
+end
+function v_u_1.Roll(p32, p_u_33)
+	-- upvalues: (ref) v_u_29, (copy) v_u_17, (copy) v_u_10, (copy) v_u_8, (copy) v_u_6, (copy) v_u_18, (copy) v_u_7, (copy) v_u_16, (copy) v_u_9, (copy) v_u_27, (copy) v_u_3, (copy) v_u_28, (copy) v_u_25, (copy) v_u_31, (copy) v_u_4, (copy) v_u_24, (copy) v_u_21, (copy) v_u_13, (copy) v_u_14, (copy) v_u_19, (copy) v_u_26, (copy) v_u_12
+	if v_u_29 then
+		v_u_29 = false
+		if not v_u_17.Info:GetAttribute("HideRoll") then
+			v_u_10.Toggle(nil, true)
+		end
+		v_u_8.CalculateChances(v_u_6.Stats, v_u_18:GetAttribute("Luck"), "Rarities")
+		v_u_8.CalculateChances(v_u_7.Stats, v_u_18:GetAttribute("EnrichmentLuck"), "Enrichments")
+		for v34 = 1, 50 do
+			local v35 = v_u_8.GetRandomInList("Rarities")
+			local v36 = v_u_8.GetRandomInList("Enrichments")
+			local v37 = v_u_16:NextNumber(1, 2.5)
+			local v38 = v_u_9.TwoDecimal(v_u_6.Stats[v35].Chance * v_u_7.Stats[v36].Multiplier * v37)
+			local v39 = v_u_27:FindFirstChild(v34)
+			v39.RNG.Text = v_u_9.Letter(v38)
+			v39.Rarity.Text = v35
+			v39.Enrichment.Text = v36
+			local v40 = v39.Rarity:FindFirstChildWhichIsA("UIGradient")
+			local v41 = v39.Enrichment:FindFirstChildWhichIsA("UIGradient")
+			if v40 then
+				v40:Destroy()
+			end
+			if v41 then
+				v41:Destroy()
+			end
+			v_u_3.Assets.Rarities:FindFirstChild(v35):Clone().Parent = v39.Rarity
+			if v36 ~= "" then
+				v_u_3.Assets.Enrichments:FindFirstChild(v36):Clone().Parent = v39.Enrichment
+			end
+		end
+		v_u_8.DeleteTable("Rarities")
+		v_u_8.DeleteTable("Enrichments")
+		for v42 = 1, v_u_18:GetAttribute("BulkRoll") do
+			v_u_28["BulkRoll_" .. v42].Visible = true
+		end
+		local function v48(p43, p44) -- name: Create
+			-- upvalues: (ref) v_u_27, (copy) p_u_33, (ref) v_u_9, (ref) v_u_3
+			local v45 = v_u_27:FindFirstChild(p_u_33.FinalFrame - p43)
+			v45.RNG.Text = v_u_9.Letter(p44.RNG)
+			v45.Rarity.Text = p44.Rarity
+			v45.Enrichment.Text = p44.Enrichment
+			local v46 = v45.Rarity:FindFirstChildWhichIsA("UIGradient")
+			local v47 = v45.Enrichment:FindFirstChildWhichIsA("UIGradient")
+			if v46 then
+				v46:Destroy()
+			end
+			if v47 then
+				v47:Destroy()
+			end
+			v_u_3.Assets.Rarities:FindFirstChild(p44.Rarity):Clone().Parent = v45.Rarity
+			if p44.Enrichment ~= "" then
+				v_u_3.Assets.Enrichments:FindFirstChild(p44.Enrichment):Clone().Parent = v45.Enrichment
+			end
+		end
+		for v49 = 1, #p32 do
+			local v50 = p32[v49]
+			if v_u_18:GetAttribute("BulkRoll") > 1 then
+				v48(2 - v49, v50)
+			else
+				v48(0, v50)
+			end
+		end
+		v_u_25.Visible = true
+		v_u_31(v_u_18:GetAttribute("HideRoll"))
+		v_u_4:Create(v_u_24.Gradient, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {
+			["ImageTransparency"] = 0.2,
+			["BackgroundTransparency"] = 0.6
+		}):Play()
+		local v51 = 0.09090909090909091 * p_u_33.FinalFrame - 0.5 + 0.01 * math.random(-8, -2)
+		v_u_4:Create(v_u_27, TweenInfo.new(p_u_33.Speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+			["Position"] = UDim2.new(-v51, 0, 0, 0)
+		}):Play()
+		local v52 = p32[p_u_33.BestEntryInTable]
+		if p_u_33.AnimationType == "Normal" or p_u_33.BestChance <= v_u_21:GetAttribute("ShowCutscenesAbove") then
+			v_u_14.Play(v51)
+			v_u_13.Normal(p32, p_u_33)
+		else
+			v_u_13[p_u_33.AnimationType](v52.RNG, v52.Rarity, v52.Enrichment)
+		end
+		if v_u_18:GetAttribute("HideRoll") then
+			v_u_4:Create(v_u_25, TweenInfo.new(0.25, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+				["Position"] = UDim2.new(0.5, 0, 0, 90)
+			}):Play()
+		else
+			v_u_4:Create(v_u_25, TweenInfo.new(0.25, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+				["Position"] = UDim2.new(0.5, 0, 0.5, 60)
+			}):Play()
+		end
+		v_u_4:Create(v_u_24.Gradient, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {
+			["ImageTransparency"] = 1,
+			["BackgroundTransparency"] = 1
+		}):Play()
+		if not v_u_19:GetAttribute("AutoRoll") then
+			v_u_10.ToggleMainUI(true)
+		end
+		v_u_4:Create(v_u_24.Buttons, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {
+			["Position"] = UDim2.new(0.5, 0, 1, 250)
+		}):Play()
+		task.wait(0.1)
+		v_u_27.Position = UDim2.new(0, 0, 0, 0)
+		v_u_26.Visible = false
+		v_u_25.Visible = false
+		v_u_29 = true
+		for v53 = 1, #p32 do
+			local v54 = p32[v53]
+			v_u_12.Add(v54.Rarity, v54.Enrichment, v54.RNG)
+		end
+		v_u_3.Events.Rolling.RollEnded:FireServer()
+	else
+		warn("[LOCAL DEBUG] Cant Receive Calculations")
+	end
+end
+function v_u_1.Init()
+	-- upvalues: (copy) v_u_27, (copy) v_u_10, (copy) v_u_23, (copy) v_u_22, (copy) v_u_18, (copy) v_u_26, (copy) v_u_3, (copy) v_u_11, (copy) v_u_19, (copy) v_u_17, (copy) v_u_31, (copy) v_u_15, (copy) v_u_1
+	v_u_27.Size = UDim2.new(0, 5000, 0, 100)
+	for v55 = 1, 50 do
+		local v56 = script.Template:Clone()
+		v56.Name = v55
+		v56.LayoutOrder = v55
+		v56.Parent = v_u_27
+	end
+	v_u_10.MouseEnter(v_u_23)
+	v_u_10.MouseLeave(v_u_23)
+	local function v_u_57() -- name: Roll
+		-- upvalues: (ref) v_u_10, (ref) v_u_23, (ref) v_u_22, (ref) v_u_18, (ref) v_u_26, (ref) v_u_3
+		v_u_10.MouseButton1Click(v_u_23)
+		v_u_22:Play()
+		if v_u_18:GetAttribute("CanRoll") then
+			v_u_23.ClickToRoll.Visible = false
+			v_u_3.Events.Rolling.Roll:FireServer()
+		else
+			v_u_26.Visible = true
+			v_u_18:SetAttribute("HideRoll", false)
+			warn("[LOCAL DEBUG] Roll; CanRoll", v_u_18:GetAttribute("CanRoll"))
+		end
+	end
+	v_u_23.MouseButton1Click:Connect(function()
+		-- upvalues: (copy) v_u_57
+		v_u_57()
+	end)
+	v_u_11.Bind(v_u_23, Enum.KeyCode.ButtonR2, v_u_57)
+	v_u_10.MouseEnter(v_u_26.AutoRoll)
+	v_u_10.MouseLeave(v_u_26.AutoRoll)
+	v_u_26.AutoRoll.MouseButton1Click:Connect(function()
+		-- upvalues: (ref) v_u_10, (ref) v_u_26, (ref) v_u_3
+		v_u_10.MouseButton1Click(v_u_26.AutoRoll)
+		v_u_3.Events.Rolling.AutoRollChange:FireServer()
+	end)
+	v_u_11.Bind(v_u_26.AutoRoll, Enum.KeyCode.ButtonL1, function()
+		-- upvalues: (ref) v_u_26, (ref) v_u_10, (ref) v_u_3
+		if v_u_26.Visible then
+			v_u_10.MouseEnterFunction(v_u_26.AutoRoll)
+			v_u_10.MouseButton1Click(v_u_26.AutoRoll)
+			v_u_3.Events.Rolling.AutoRollChange:FireServer()
+		end
+	end)
+	v_u_10.MouseEnter(v_u_26.HideRoll)
+	v_u_10.MouseLeave(v_u_26.HideRoll)
+	v_u_26.HideRoll.MouseButton1Click:Connect(function()
+		-- upvalues: (ref) v_u_10, (ref) v_u_26, (ref) v_u_18
+		v_u_10.MouseButton1Click(v_u_26.HideRoll)
+		v_u_18:SetAttribute("HideRoll", not v_u_18:GetAttribute("HideRoll"))
+	end)
+	v_u_11.Bind(v_u_26.HideRoll, Enum.KeyCode.ButtonR1, function()
+		-- upvalues: (ref) v_u_19, (ref) v_u_26, (ref) v_u_10, (ref) v_u_18
+		if v_u_19:GetAttribute("AutoRoll") then
+			if v_u_26.Visible then
+				v_u_10.MouseEnterFunction(v_u_26.HideRoll)
+				v_u_10.MouseButton1Click(v_u_26.HideRoll)
+				v_u_18:SetAttribute("HideRoll", not v_u_18:GetAttribute("HideRoll"))
+			end
+		else
+			return
+		end
+	end)
+	local function v59() -- name: CheckForAutoRoll
+		-- upvalues: (ref) v_u_19, (ref) v_u_26, (ref) v_u_18, (ref) v_u_17
+		local v58 = v_u_19:GetAttribute("AutoRoll")
+		v_u_26.AutoRoll.TextLabel.Text = ("Auto Roll [%*]"):format(v58 and "On" or "Off")
+		if not v58 then
+			v_u_18:SetAttribute("HideRoll", false)
+		end
+		if v_u_17.SkillTreeUpgrades:FindFirstChild("HideRoll") then
+			v_u_26.HideRoll.Visible = v58
+		end
+	end
+	v59()
+	v_u_19:GetAttributeChangedSignal("AutoRoll"):Connect(v59)
+	v_u_18:GetAttributeChangedSignal("HideRoll"):Connect(function()
+		-- upvalues: (ref) v_u_31, (ref) v_u_18, (ref) v_u_19, (ref) v_u_10
+		v_u_31(v_u_18:GetAttribute("HideRoll"))
+		if v_u_19:GetAttribute("AutoRoll") then
+			v_u_10.ToggleMainUI(true)
+		end
+	end)
+	v_u_3.Events.Rolling.ServerRollMessage.OnClientEvent:Connect(v_u_15.Create)
+	v_u_3.Events.Rolling.GlobalRollMessage.OnClientEvent:Connect(function(p60, p61, p62, p63, p64)
+		-- upvalues: (ref) v_u_15
+		v_u_15.Create(p60, p61, p62, p63, p64, "Global")
+	end)
+	v_u_3.Events.Rolling.Roll.OnClientEvent:Connect(function(p65, p66)
+		-- upvalues: (ref) v_u_1
+		v_u_1.Roll(p65, p66)
+	end)
+end
+return v_u_1
