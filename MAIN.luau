@@ -1,5 +1,5 @@
 local HttpGet = game.HttpGet
-local GameId = game.GameId
+local GameId = game.PlaceId
 
 local Games = loadstring(HttpGet(game, "https://github.com/noobvil/REVIVE/raw/refs/heads/main/GameList.luau"))()
 
